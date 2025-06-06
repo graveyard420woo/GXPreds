@@ -4,7 +4,7 @@
 
 https://graveyard420woo.github.io/GXPreds/
 
-This is an overlay tool that shows a dynamic display for multi-option Twitch channel points predictions!
+This is an overlay tool that shows a dynamic display for multi-option Twitch channel points predictions! It seeks to address the need for a better display for predictions that have more than two possible outcomes.
 
 It will automatically receive any prediction's options and betting activity in an animated overlay whenever you activate a new prediction on your stream.
 
