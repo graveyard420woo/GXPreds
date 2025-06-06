@@ -1,0 +1,206 @@
+body {
+    margin: 0px;
+    
+}
+
+
+#login {
+    text-align: center;
+    min-height: 100vh;
+    height: auto;
+    background-color: blueviolet;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+}
+
+#animation {
+	font-family: "Francois One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+    position: fixed;
+    top: 250px;
+	left: 40px;
+	width: 90%;
+	float: left;
+    text-align: left;
+	display: flex;
+	opacity: 0;
+	transition: all 1s ease-in-out;
+}
+
+#img {
+  position:relative;
+    width: 100px;
+    height: auto;
+}
+
+#img {
+	transition: src 1s ease-in;
+	border-radius: 2px 2px 2px 2px;
+}
+
+#outcomebar {
+    z-index: -1;
+    /* -40 */
+    color: #fff;
+    border-radius: 10px 10px 10px 10px;
+    padding: 4px 20px 22px 8px;
+    margin: 0px;
+	width: fit-content;
+	height: 38px;
+	margin-top: -1px;
+	margin-bottom: 6px;
+    background-color: #ed0080;
+    transform-origin: left;
+	font-family: "Francois One", sans-serif;
+    font-weight: 400;
+	font-size: 21px;
+    font-style: normal;
+	text-shadow: 1px 1px 1px #353535, 1px 1px 2px #252525;
+	align-items: left;
+	text-align: left;
+	transition: all 1s ease-in-out;
+	white-space: nowrap;
+	
+	 transition:
+    width 4.5s ease-in-out,   /* Transition for width */
+    background-color 1s ease-in-out,  
+	opacity 1s ease-in-out;
+}
+
+#cpcounted{
+	margin-left: -10px;
+}
+
+#outcomename {
+	font-family: "Francois One", sans-serif;
+	font-size: 21px;
+    font-weight: 400;
+    font-style: normal;
+	text-shadow: 1px 1px 1px #353535, 1px 1px 2px #252525;
+	transition: all 1s ease-in-out;
+}
+
+#lockeddiv{
+    display: inline-block;
+	position: fixed;
+	z-index: 1000;
+	top: 100px;
+    transition: all .3s ease-in-out ;
+	color: #fff;
+    margin-left: 125px;
+    margin-right: 111px;
+    font-size: 44px;
+    font-weight: bold;
+	transform: scale(3) rotate(-48deg);
+	opacity:0;
+	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
+}
+
+#paiddiv{
+    display: inline-block;
+	position: fixed;
+	z-index: 1000;
+	top: 100px;
+    padding: 4px 40px 4px 40px;
+    transition: all .3s ease-in-out ;
+	color: #fff;
+    margin-left: 138px;
+    margin-right: 111px;
+    font-size: 49px;
+    font-weight: bold;
+	transform: scale(5) rotate(-58deg);
+	opacity:0;
+	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
+}
+
+#refundeddiv{
+    display: inline-block;
+	position: fixed;
+	z-index: 1000;
+	top: 100px;
+    padding: 4px 40px 4px 40px;
+    transition: all .3s ease-in-out ;
+	color: #fff;
+    margin-left: 127px;
+    margin-right: 11px;
+    font-size: 42px;
+    font-weight: bold;
+	transform: scale(4) rotate(-36deg);
+	opacity:0;
+	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
+}
+
+#winningdiv{
+	position:absolute;
+	top:-180px;
+	z-index: 1000;
+    padding: 4px 40px 4px 40px;
+    transition: all 1s ease-in-out;
+	color: #fff;
+    margin-left: 297px;
+    margin-right: 11px;
+    font-size: 32px;
+    font-weight: bold;
+	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
+}
+
+#winlist {
+  height: 600px;
+  transition: all 1s ease-in-out;
+}
+
+#winlist li {
+  opacity: 0; /* Fully transparent */
+  margin-top:200px;
+  font-weight: bold;
+  transition: all 1s ease-in-out;
+  text-shadow: 1px 1px 1px #353535, 1px 1px 2px #252525;
+}
+
+#winlist li::marker {
+  content: "✓";
+  color:#6F9;
+  padding: 14px;
+}
+
+#losingdiv{
+	position: absolute;
+	z-index: 1000;
+	top: -170px;
+    padding: 4px 40px 4px 40px;
+    transition: all 1s ease-in-out;
+	color: #fff;
+	float: right;
+	width: 98%;
+    margin-left: 10px;
+    margin-right: 11px;
+    font-size: 24px;
+    font-weight: bold;
+	align-items: left;
+	text-align: left;
+	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
+}
+
+#loselist {
+  height: 600px;
+  float: right;
+  margin-right: 66px;
+  transition: all 1s ease-in-out;
+}
+
+#loselist li {
+  opacity: 0; /* Fully transparent */
+  margin-top:0px;
+  float: right;
+  font-weight: bold;
+  transition: all 1s ease-in-out;
+  text-shadow: 1px 1px 1px #353535, 1px 1px 2px #252525;
+}
+
+#loselist li::marker {
+  content: "❌";
+  color:#FFCCCC;
+  padding: 14px;
+}

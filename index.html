@@ -1,0 +1,881 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>graveyard's Multi-Option Prediction Overlay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Francois+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="animation.css">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<style>
+	#centercontentbox {
+		background-color: #09131CCC;
+		border-radius: 11px 11px 26px 11px;
+		margin-top: 7px;
+		padding: 35px;
+		padding-top: 13px;
+		backdrop-filter: blur(10px);
+		height: 600px;
+		width: 360px;
+		position: fixed;
+  		top: 50%;
+    	left: 50%;
+    	transform: translate(-50%, -50%);
+    	text-align: center;
+		overflow: hidden;
+		}
+        #log {
+			margin-top: 20px;
+            box-sizing: border-box;
+            overflow: auto;
+            border: none;
+        }
+
+        #log span {
+            margin-right: 5px;
+        }
+		.confetti-wrapper {
+		 position: fixed;
+			top: 0;
+			margin-top: -25%;
+		  width: 90%;
+		  height: 100%;
+		  pointer-events: none; /* Prevent interaction */
+		  overflow: hidden;
+		  z-index: 100;
+		  padding-top: -50%;	  
+		  object-fit: cover;
+		}
+		
+		.confetti-piece {
+		  position: absolute;
+		  width: 12px;
+		  height: 19px;
+		  top: 0;
+		  background: var(--confetti-color);
+		  opacity: 0.9;
+		  animation: confetti-fall var(--fall-duration, 3s) linear;
+		  z-index: 100;
+		  transition: background 1s ease-in;
+		}
+		/* Randomize confetti properties */
+		.confetti-piece:nth-child(1) {
+		  left: 10%;
+		  --confetti-color: #ed0677;
+		  --fall-duration: 3s;
+		}
+		.confetti-piece:nth-child(2) {
+		  left: 25%;
+		  --confetti-color: #871668;
+		  --fall-duration: 4s;
+		}
+		.confetti-piece:nth-child(3) {
+		  left: 40%;
+		  --confetti-color: #92278f;
+		  --fall-duration: 3.5s;
+		}
+		.confetti-piece:nth-child(4) {
+		  left: 60%;
+		  --confetti-color: #d80b8c;
+		  --fall-duration: 2.5s;
+		}
+		.confetti-piece:nth-child(5) {
+		  left: 80%;
+		  --confetti-color: #812990;
+		  --fall-duration: 2s;
+		}
+		.confetti-piece {
+		  clip-path: polygon(50% 30%, 0% 80%, 100% 100%);
+		}
+		@keyframes confetti-fall {
+		  0% {
+			transform: translateY(0) rotate(0deg);
+			opacity: 0;
+		  }
+		  3% {
+			opacity: 100;
+		  }
+		  74% {
+			opacity: 0;
+		  }
+		  100% {
+			transform: translateY(50vh) rotate(760deg);
+			opacity: 0;
+		  }
+		}
+		#bigcontainer1 {
+		  width: 100%;
+		  height: 100%;
+		  text-align: center;
+		  }
+	  #bigcontainer {
+	  background-image: url('bg.png');
+		text-align: center;
+		min-height: 100vh;
+		height: auto;
+		background-size: cover;
+		background-position: center;
+	  display: flex;
+	  }
+    </style>
+</head>
+<body>
+<div id="bigcontainer1"><div id="bigcontainer">
+				
+			<div id="centercontentbox">
+
+				<img id="gy-logo" style="float:left; margin-left:-15px;" src="gxpreds.png">
+                    <span class="description-name text"><a class="logofollow-box" href="https://www.twitch.tv/graveyard420woo" target="_blank"><img id="gy-logo" src="gy.png"></a>Description:</span>
+                    <span class="description-main description">This is an overlay tool that shows a dynamic display for multi-option Twitch channel points predictions!<br>
+It will automatically receive any prediction's options and betting activity in an animated overlay whenever you activate a new prediction on your stream.<br>
+Simply add it as a browser source by copying the URL after you connect your twitch account!</span>
+<br>
+                    <a id="authorize" class="login-box" target="">
+                     <img id="twitch-logo" src="tlogo.png">
+                        <span id="twitch-text">Connect Your Twitch!</span>
+                    </a>
+                    
+                    <a class="follow-box" href="https://www.twitch.tv/graveyard420woo" target="_blank">
+                     <img id="twitch-logo" src="tlogo.png">
+                        <span id="gy-text">Follow graveyard's channel!</span>
+                    </a>
+                    
+                    <span class="description"><br>If this tool helps you along your journey, I am so pleased! I do indie dev work like this to help the universe and everyone in it. It's tough out there, you deserve a simple solution to this.. Feel free to drop a follow on my channel with the above link! </span>
+                    
+                    <a class="paypal-box" href="https://www.paypal.com/ncp/payment/G7TJ4WR438AJU" target="_blank">
+                     <img id="twitch-logo" src="pp.png">
+                        <span id="paypal-text">Donate/Tip with Paypal!</span>
+                    </a>
+                    
+                    <span class="description"><br>Just your humble artist/tech (; Always appreciated but never necessary or solicited.</span>
+                
+                <div>
+                    <div id="log">
+                        <div>Click "Connect Your Twitch" above to start!</div>
+                    </div> 
+<span id="keepalive"></span>
+                </div>
+            </div>
+
+    <script type="text/javascript" src="eventsub.js"></script>
+    <script type="text/javascript">
+		
+        var client_id = 'nou4egds05d6svv8tf4aycwqijw0iz';
+        var redirect = 'https://graveyard420woo.github.io/GXPreds/';
+        var access_token = '';
+        var socket_space = '';
+        var session_id = '';
+        var my_user_id = '';
+		var predID = '';
+		var redeemUserColor = '';
+		var barColorUser = '';
+		var numberOfActiveElements = 0;
+		var newMaxWidth = 0;
+		var	newWidthPercentage = 0;
+		var globalWidth = 0;
+		var percentCheck = 0;
+		var cLoseTime = 0;
+								
+		document.getElementById('authorize').setAttribute('href', 'https://id.twitch.tv/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + encodeURIComponent(redirect) + '&response_type=token&scope=channel:manage:predictions');
+
+        if (document.location.hash && document.location.hash != '') {
+            log('Checking for token');
+            var parsedHash = new URLSearchParams(window.location.hash.slice(1));
+            if (parsedHash.get('access_token')) {
+                log('Got a token');
+                processToken(parsedHash.get('access_token'));
+            }
+        }
+		
+		function getUrlParameter(name) {
+		  const urlParams = new URLSearchParams(window.location.search);
+		  return urlParams.get(name);
+		}
+		
+		function playTheStartSound(){
+		var startaudio = new Audio('start.mp3');
+		startaudio.play();
+		startaudio.volume = .7;
+		}
+		function playTheLockedSound(){
+		var lockedaudio = new Audio('locked.mp3');
+		lockedaudio.play();
+		lockedaudio.volume = .7;
+		}
+		function playTheEndedSound(){
+		var endedaudio = new Audio('ended.mp3');
+		endedaudio.play();
+		endedaudio.volume = .7;
+		}
+		
+		function clearOldElements(){
+			const elementsToRemove1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToRemove1.forEach(element => {
+				element.style.transition = 'none';
+				element.style.opacity = '0%';
+				element.style.transition = 'all 1s ease-in-out';
+   			 element.remove();
+			});	
+			const elementsToRemove2 = document.querySelectorAll('div[id^="outcomename"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToRemove2.forEach(element => {
+				element.style.transition = 'none';
+				element.style.opacity = '0%';
+				element.style.transition = 'all 1s ease-in-out';
+   			 element.remove();
+			});
+			const elementsToRemove4 = document.querySelectorAll('div[id^="winningdiv"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToRemove4.forEach(element => {
+				element.style.transition = 'none';
+				element.style.opacity = '0%';
+				element.style.transition = 'all 1s ease-in-out';
+   			 element.remove();
+			});
+			const elementsToRemove5 = document.querySelectorAll('div[id^="losingdiv"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToRemove5.forEach(element => {
+				element.style.transition = 'none';
+				element.style.opacity = '0%';
+				element.style.transition = 'all 1s ease-in-out';
+   			 element.remove();
+			});
+			const elementsToRemove3 = document.querySelectorAll('div[class^="confetti-piece"]'); // Selects divs with classes starting with "prefix_"
+			elementsToRemove3.forEach(element => {
+   			 element.remove();
+			});
+			document.getElementById('animation').style.opacity = "0%";
+			document.getElementById('animation').style.top = "250";
+		}
+		
+		function dimTheBars(){
+			const elementsToDim1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToDim1.forEach(element => {
+   			 element.style.opacity = "69%"
+			});	
+			const elementsToDim2 = document.querySelectorAll('div[id^="outcomename"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToDim2.forEach(element => {
+   			 element.style.opacity = "69%"
+			});
+		}
+		
+		function fadeoutTheBars(){
+			const elementsToFade1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToFade1.forEach(element => {
+   			 element.style.opacity = "0%"
+			});	
+			const elementsToFade2 = document.querySelectorAll('div[id^="outcomename"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToFade2.forEach(element => {
+   			 element.style.opacity = "0%"
+			});
+		}
+		
+		function fadeinEverything(){
+			const elementsToFadein1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToFadein1.forEach(element => {
+   			 element.style.opacity = "100%"
+			});	
+			const elementsToFadein2 = document.querySelectorAll('div[id^="outcomename"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToFadein2.forEach(element => {
+   			 element.style.opacity = "100%"
+			});
+			document.getElementById('animation').style.opacity = "100%";
+			document.getElementById('animation').style.top = "150";
+		}
+		
+		function playTheLockedAnimation(){
+			
+			if (typeof timerL3 !== 'undefined') {
+				clearTimeout(timerL3);
+			}
+			if (typeof timerR3 !== 'undefined') {
+				clearTimeout(timerR3);
+			}
+			if (typeof timerP3 !== 'undefined') {
+				clearTimeout(timerP3);
+			}
+			if (typeof timerP4 !== 'undefined') {
+				clearTimeout(timerP4);
+			}
+			
+			const container = document.getElementById('animation');
+			const newLockedDiv = document.createElement('div');
+			newLockedDiv.setAttribute('id', 'lockeddiv');
+			newLockedDiv.textContent = 'LOCKED!';
+			container.appendChild(newLockedDiv);
+			playTheLockedSound();
+			timerL0=window.setTimeout(
+				function(){
+					newLockedDiv.style.opacity = '100%';
+					newLockedDiv.style.transform = 'scale(1.2) rotate(-23deg)';
+					dimTheBars();
+				},150);
+			timerL1=window.setTimeout(
+				function(){
+					newLockedDiv.style.opacity = '0%';
+					newLockedDiv.style.transform = 'scale(1) rotate(-18deg)';
+				},8000);
+			timerL2=window.setTimeout(
+				function(){
+					newLockedDiv.remove();
+				},8500); 
+			timerL3=window.setTimeout(
+				function(){
+					fadeoutTheBars();
+				},45000); 
+			}
+			
+		function playTheEndedAnimation(paidstatus, pred_id){
+			if (typeof timerL3 !== 'undefined') {
+				clearTimeout(timerL3);
+			}
+			if (typeof timerR3 !== 'undefined') {
+				clearTimeout(timerR3);
+			}
+			if (typeof timerP3 !== 'undefined') {
+				clearTimeout(timerP3);
+			}
+			if (typeof timerP4 !== 'undefined') {
+				clearTimeout(timerP4);
+			}
+			
+			fadeinEverything();
+						
+			if(paidstatus == 'canceled'){
+				
+				const container = document.getElementById('animation');
+				const newRefundedDiv = document.createElement('div');
+				newRefundedDiv.setAttribute('id', 'refundeddiv');
+				newRefundedDiv.textContent = 'REFUNDED!';
+				container.appendChild(newRefundedDiv);
+				playTheEndedSound();
+				timerR0=window.setTimeout(
+					function(){
+						newRefundedDiv.style.opacity = '100%';
+						newRefundedDiv.style.transform = 'scale(1.2) rotate(-23deg)';
+					},150);
+				timerR1=window.setTimeout(
+					function(){
+						newRefundedDiv.style.opacity = '0%';
+						newRefundedDiv.style.transform = 'scale(1) rotate(-18deg)';
+					},4000);
+				timerR2=window.setTimeout(
+					function(){
+						newRefundedDiv.remove();
+					},4500); 
+				timerR3=window.setTimeout(
+					function(){
+						fadeoutTheBars();
+						container.style.opacity = '0%';
+					},9500);
+				}
+						
+			else if(paidstatus == 'resolved'){
+				
+				doPredEndStuff(my_user_id, pred_id);
+				
+				const container = document.getElementById('animation');
+				const newPaidDiv = document.createElement('div');
+				newPaidDiv.setAttribute('id', 'paiddiv');
+				newPaidDiv.textContent = 'PAID!';
+				container.appendChild(newPaidDiv);
+				playTheEndedSound();
+				timerP0=window.setTimeout(
+					function(){
+						newPaidDiv.style.opacity = '100%';
+						newPaidDiv.style.transform = 'scale(2) rotate(-23deg)';
+					},150);
+				timerP1=window.setTimeout(
+					function(){
+						newPaidDiv.style.opacity = '0%';
+						newPaidDiv.style.transform = 'scale(1) rotate(-18deg)';
+					},4000);
+				timerP2=window.setTimeout(
+					function(){
+						newPaidDiv.remove();
+					},4500); 
+				timerP3=window.setTimeout(
+					function(){
+						dimTheBars();
+					},25500);
+				timerP4=window.setTimeout(
+					function(){
+						fadeoutTheBars();
+						container.style.opacity = '0%';
+					},72000);
+				}
+			}
+
+        function log(message) {
+            let p = document.createElement('div');
+            document.getElementById('log').prepend(p);
+
+            let tim = document.createElement('span');
+            let t = [
+                new Date().getHours(),
+                new Date().getMinutes(),
+                new Date().getSeconds()
+            ]
+            t.forEach((v, i) => {
+                t[i] = v < 10 ? '0' + v : v;
+            });
+            tim.textContent = t.join(':');
+            p.append(tim);
+
+            let l = document.createElement('span');
+            p.append(l);
+            l.textContent = message;
+        }
+
+        function processToken(token) {
+            access_token = token;
+
+            fetch(
+                'https://api.twitch.tv/helix/users',
+                {
+                    "headers": {
+                        "Client-ID": client_id,
+                        "Authorization": "Bearer " + access_token
+                    }
+                }
+            )
+                .then(resp => resp.json())
+                .then(resp => {
+                    socket_space = new initSocket(true);
+                    socket_space.on('connected', (id) => {
+                        log(`Connected to WebSocket with ${id}`);
+                        session_id = id;
+                        my_user_id = resp.data[0].id;
+
+                        requestHooks(resp.data[0].id, my_user_id);
+													
+                    });
+
+                    socket_space.on('session_keepalive', () => {
+                        document.getElementById('keepalive').textContent = new Date();
+                    });
+					socket_space.on('channel.prediction.begin', ({ metadata, payload }) => {
+    					let { event } = payload;
+    					let { id , title } = event;
+    					
+						console.log(`${title} Prediction has started! its ID is ${id}`);
+						log(`${title} Prediction has started! its ID is ${id}`);
+						
+						clearOldElements();
+						
+						setTimeout(() => {
+							getPredStuff(my_user_id, `${id}`)
+						}, 200); // A small delay
+						
+						//getPredStuff(my_user_id, `${id}`)
+										
+					});
+					socket_space.on('channel.prediction.progress', ({ metadata, payload }) => {
+    					let { event } = payload;
+    					let { id , title, status } = event;
+										
+						predProgressStuff(my_user_id, `${id}`)
+    					
+						console.log(`${title} Prediction has progressed! ${id}`);
+						log(`${title} Prediction has progressed! ${id}`);										
+					});
+					socket_space.on('channel.prediction.lock', ({ metadata, payload }) => {
+    					let { event } = payload;
+    					let { id , title } = event;
+    					
+						console.log(`${title} Prediction has locked! ${id}`);
+						log(`${title} Prediction has locked! ${id}`);	
+						
+						playTheLockedAnimation();							
+					});
+					socket_space.on('channel.prediction.end', ({ metadata, payload }) => {
+    					let { event } = payload;
+    					let { id , title, status } = event;
+    					
+						console.log(`${title} Prediction has ended! ${id} ${status}`);
+						log(`${title} Prediction has ended! ${id}`);
+						
+						playTheEndedAnimation(`${status}`, `${id}`);										
+					});
+				})	
+                .catch(err => {
+                    console.log(err);
+                    log('Error with Users Call');
+                });
+        }
+		
+		function getPredStuff(broadcaster_id, pred_id) {
+            let url = new URL('https://api.twitch.tv/helix/predictions?broadcaster_id='+broadcaster_id+'&id='+pred_id);
+            fetch(
+                url,
+                {
+                    "headers": {
+                        "Client-ID": client_id,
+                        "Authorization": "Bearer " + access_token
+                    }
+                }
+            )
+                .then(resp => resp.json())
+                .then(resp => {
+					//console.dir(resp.data[0]);
+					log(`Got ${resp.data[0].outcomes.length} outcomes`);
+					if(resp.data[0].outcomes.length == 2){ // check if its a two option pred, if so don't start anything
+					} else {
+					
+					if (typeof timerL3 !== 'undefined') {
+						clearTimeout(timerL3);
+					}
+					if (typeof timerR3 !== 'undefined') {
+						clearTimeout(timerR3);
+					}
+					if (typeof timerP3 !== 'undefined') {
+						clearTimeout(timerP3);
+					}
+					
+					// confetti start
+					document.getElementById("confettianimation").style.display = "block";
+					document.getElementById("confettianimation").style.opacity = "80";
+					const confettiWrapper = document.querySelector('.confetti-wrapper');
+					for (let i = 0; i < 50; i++) {
+					  const confetti = document.createElement('div');
+					  confetti.classList.add('confetti-piece');
+					  confetti.style.left = `${Math.random() * 100}%`;
+					  confetti.style.top = '30%';
+					  confetti.style.display = 'block';
+					  confetti.style.setProperty('--fall-duration', `${Math.random() * 2 + 4}s`);
+					  confettiWrapper.appendChild(confetti);
+					}
+					timer3a=window.setTimeout(
+						function(){
+							document.getElementById("confettianimation").style.display = "none";
+						},3900);
+					// confetti end
+					
+					const container = document.getElementById('animation');
+					const numberOfDivs = `${resp.data[0].outcomes.length}`
+										
+					  for (let i = 0; i < numberOfDivs; i++) {
+
+						const newDiv2 = document.createElement('div');
+						newDiv2.textContent = resp.data[0].outcomes[i].title;
+						newDiv2.classList.add('outcomebar-' + i);
+						newDiv2.setAttribute('id', 'outcomebar');
+						console.log(newDiv2.offsetWidth)
+						container.appendChild(newDiv2);
+						newDiv2.style.width = newDiv2.offsetWidth;
+						
+						const newDiv4 = document.createElement('div');
+						newDiv4.classList.add('outcomecp-' + i);
+						newDiv2.appendChild(newDiv4);
+					  }
+					  
+					  const globalWidthHolder = document.getElementById('animation');
+					  globalWidth = globalWidthHolder.offsetWidth;
+					  
+					  setTimeout(() => {				
+					  for (let i = 0; i < numberOfDivs; i++) {
+						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i+1);
+					  }
+					}, 800); // A small delay
+					fadeinEverything();
+					playTheStartSound();
+				   }
+                })
+                .catch(err => {
+                    console.log(err);
+                    log('Error with Users Call');
+                });
+        }
+		
+		function predProgressStuff(broadcaster_id, pred_id) {
+            let url = new URL('https://api.twitch.tv/helix/predictions?broadcaster_id='+broadcaster_id+'&id='+pred_id);
+            fetch(
+                url,
+                {
+                    "headers": {
+                        "Client-ID": client_id,
+                        "Authorization": "Bearer " + access_token
+                    }
+                }
+            )
+                .then(resp => resp.json())
+                .then(resp => {
+					//console.dir(resp.data[0]);
+					//log(`Got ${resp.data[0].outcomes.length} outcomes`);
+					
+					const numberOfDivs = `${resp.data[0].outcomes.length}`
+					
+					  for (let i = 0; i < numberOfDivs; i++) {
+						  
+						changeDivWidthByClass('outcomebar-' + i, `${resp.data[0].outcomes[i].channel_points}`, numberOfDivs, i+1);
+						
+						countUpToCPointsNumber('outcomecp-' + i, `${resp.data[0].outcomes[i].channel_points}`, `${resp.data[0].outcomes[i].title}`);
+						
+						if (`${resp.data[0].outcomes[i].users}` == 0) { 
+						
+							//log(`no betters on ` + i);
+						
+						} else {
+													
+							//log(`barColorUser = ${resp.data[0].outcomes[i].top_predictors[0].user_id}`);
+							
+							barColorUser = `${resp.data[0].outcomes[i].top_predictors[0].user_id}`
+							
+							doChatUsersBarColor(barColorUser, 'outcomebar-' + i)
+						}
+					  }	
+									
+                })
+                .catch(err => {
+                    console.log(err);
+                    log('Error with Users Call');
+                });
+        }
+		
+		function countUpToCPointsNumber(className, stones, title){
+		
+			const counterElement = document.querySelector('.'+className);
+			const targetNumber = stones; // The number you want to count up to
+			const duration = 1000; // Duration of the animation in milliseconds (1 second)
+			const interval = 10; // Interval for updating the counter (in milliseconds)
+			const increment = targetNumber / (duration / interval); // Calculate the increment per interval
+			
+			let cptextContent = counterElement.textContent; // textContent will be ""
+			let cpnumericValue = parseFloat(cptextContent); // numericValue will be NaN
+			if (isNaN(cpnumericValue)) {
+			  cpnumericValue = 0; // numericValue will be 0
+			}
+		
+			let currentNumber = cpnumericValue;
+						
+			const timerCP = setInterval(() => {
+				currentNumber += increment;
+				if (currentNumber >= targetNumber) {
+					currentNumber = targetNumber; // Ensure the counter doesn't exceed the target
+					clearInterval(timerCP); // Stop the timer when the target is reached
+				}
+				if (Math.round(currentNumber) == 0){
+				}else {
+					counterElement.textContent = Math.round(currentNumber); // Update the displayed number, rounded to the nearest integer
+				}
+			}, interval);
+			
+		}
+				
+		function changeDivWidthByClass(className, newWidth, numberOfDivs, currentDiv) {
+			
+			const elements = document.getElementsByClassName(className);
+			
+			if (newWidth > newMaxWidth){
+				  newMaxWidth = newWidth;
+			  }
+			
+			for (let i = 0; i < elements.length; i++) {
+					newWidth = newWidth + elements[i].offsetWidth;    
+					newWidthPercentage = (newWidth / newMaxWidth) * 100;
+					percentCheck = `${(newWidthPercentage / globalWidth) * 100}`;
+					if (percentCheck > 100){
+						percentCheck = 100;
+					}
+					
+					//slower looser way
+					//elements[i].style.width = percentCheck+`%`; //slower looser way
+					
+					//faster tighter way
+					elements[i].style.width = `${(newWidthPercentage / globalWidth) * 100}%`;
+			}
+		}
+		
+		function changeDivColorByClassUser(className, newBgColor) {
+		  const elements = document.getElementsByClassName(className);
+		  for (let i = 0; i < elements.length; i++) {
+			elements[i].style.backgroundColor = newBgColor;
+		  }
+		}
+		
+		function doChatUsersBarColor(theuserid, thedivclass) {
+            let url = new URL('https://api.twitch.tv/helix/chat/color?user_id='+`${theuserid}`);
+			//log('https://api.twitch.tv/helix/chat/color?user_id='+`${theuserid}`);
+            fetch(
+                url,
+                {
+                    "headers": {
+                        "Client-ID": client_id,
+                        "Authorization": "Bearer " + access_token
+                    }
+                }
+            )
+                .then(resp => resp.json())
+                .then(resp => {
+                    //log(`Got color: ${resp.data[0].color} for ${theuserid}`);
+					//log(`class is for ${thedivclass}`);
+					redeemUserColor = `${resp.data[0].color}`					
+					if (resp.data[0].color) {
+						changeDivColorByClassUser(thedivclass, redeemUserColor);
+					} else {
+						changeDivColorByClassUser(thedivclass, '#ED0080');	
+					}
+                })
+                .catch(err => {
+                    console.log(err);
+                    log('Error with getUsersColor Call');
+                });
+        }
+		
+		
+		function doPredEndStuff(broadcaster_id, pred_id) {
+            let url = new URL('https://api.twitch.tv/helix/predictions?broadcaster_id='+broadcaster_id+'&id='+pred_id);
+            fetch(
+                url,
+                {
+                    "headers": {
+                        "Client-ID": client_id,
+                        "Authorization": "Bearer " + access_token
+                    }
+                }
+            )
+                .then(resp => resp.json())
+                .then(resp => {
+                    //log(`Got ${resp.data[0]} for ${broadcaster_id} pred id is ${predID}`);
+					//console.dir(resp.data[0]);
+					//log(`Got winning outcome ID: ${resp.data[0].winning_outcome_id}`);
+										
+					const numberOfOutcomes = `${resp.data[0].outcomes.length}`
+					cLoseTime = 0;
+					
+					  for (let i = 0; i < numberOfOutcomes; i++) {
+						  
+						  if (`${resp.data[0].winning_outcome_id}` == `${resp.data[0].outcomes[i].id}`){
+								//console.log(`${resp.data[0].outcomes[i].title} is the winning outcome! `);  
+								if (resp.data[0].outcomes[i].top_predictors){
+									
+								const container = document.getElementById('animation');
+								const newWinningDiv = document.createElement('div');
+								const ulElement = document.createElement("ul");
+
+								newWinningDiv.setAttribute('id', 'winningdiv');
+								ulElement.setAttribute('id', 'winlist');
+								container.appendChild(newWinningDiv);
+								newWinningDiv.appendChild(ulElement);
+								
+								const numberOfTopPredictors = `${resp.data[0].outcomes[i].top_predictors.length}`
+								
+								for (let c = 0; c < numberOfTopPredictors; c++) {
+								  const listItem = document.createElement("li"); // Create a new list item
+								  listItem.textContent = `${resp.data[0].outcomes[i].top_predictors[c].user_name}` + ' + ' + `${resp.data[0].outcomes[i].top_predictors[c].channel_points_won}`; // Set the text from array
+								  ulElement.appendChild(listItem); // Append the list item to the unordered list
+  								 setTimeout(() => {
+									  setTimeout(() => {
+										  listItem.style.opacity = '100%'; 
+										  listItem.style.marginTop = '70';
+										}, 1000); // A small delay
+									  setTimeout(() => {
+										  listItem.style.transition = 'all .3s ease-in-out';
+										  listItem.style.opacity = '0%'; 
+										  listItem.style.marginTop = '22';
+										}, 6000); // A small delay
+									   }, 5000*c); // A small delay
+								}
+							}
+								
+						  } else {
+							  	//console.log(`${resp.data[0].outcomes[i].title} didnt win `);
+								
+								changeDivColorByClassUser('outcomebar-' + i, 'rgba(204, 204, 204, 0.5)');
+								
+								if (resp.data[0].outcomes[i].top_predictors){
+									
+									const container = document.getElementById('animation');
+									const newLosingDiv = document.createElement('div');
+									const ulElement = document.createElement("ul");
+	
+									newLosingDiv.setAttribute('id', 'losingdiv');
+									ulElement.setAttribute('id', 'loselist');
+									container.appendChild(newLosingDiv);
+									newLosingDiv.appendChild(ulElement);
+
+									const numberOfTopPredictorsLose = `${resp.data[0].outcomes[i].top_predictors.length}`
+									
+									for (let c = 0; c < numberOfTopPredictorsLose; c++) {
+									  const listItem = document.createElement("li"); // Create a new list item
+									  listItem.textContent = `${resp.data[0].outcomes[i].top_predictors[c].user_name}` + ' - ' + `${resp.data[0].outcomes[i].top_predictors[c].channel_points_used}`; // Set the text from array
+									  ulElement.appendChild(listItem); // Append the list item to the unordered list
+									  cLoseTime = cLoseTime + c;
+									  setTimeout(() => {
+										  setTimeout(() => {
+											  listItem.style.opacity = '100%'; 
+											  listItem.style.marginTop = '80';
+											}, 1000); // A small delay
+										  setTimeout(() => {
+											  listItem.style.opacity = '0%'; 
+											  listItem.style.marginTop = '180';
+											}, 6000); // A small delay
+										   }, 5000*cLoseTime); // A small delay
+									}
+								}
+						  }
+					  }	
+									
+                })
+                .catch(err => {
+                    console.log(err);
+                    log('Error with Users Call');
+                });
+        }
+		
+
+        function requestHooks(user_id, my_id) {
+            let eventSubTypes = {
+				  'channel.prediction.begin': { version: "1", condition: { broadcaster_user_id: user_id } },
+				  'channel.prediction.progress': { version: "1", condition: { broadcaster_user_id: user_id } },
+				  'channel.prediction.lock': { version: "1", condition: { broadcaster_user_id: user_id } },
+				  'channel.prediction.end': { version: "1", condition: { broadcaster_user_id: user_id } },
+            }	
+            
+            log(`Spawn Topics for ${user_id}`);
+
+            for (let type in eventSubTypes) {
+                log(`Attempt create ${type} - ${user_id}`);
+                let { version, condition } = eventSubTypes[type];
+
+                spawnHook(type, version, condition);
+            }
+        }
+        function spawnHook(type, version, condition) {
+            fetch(
+                'https://api.twitch.tv/helix/eventsub/subscriptions',
+                {
+                    "method": "POST",
+                    "headers": {
+                        "Client-ID": client_id,
+                        "Authorization": "Bearer " + access_token,
+                        'Content-Type': 'application/json'
+                    },
+                    "body": JSON.stringify({
+                        type,
+                        version,
+                        condition,
+                        transport: {
+                            method: "websocket",
+                            session_id
+                        }
+                    })
+                }
+            )
+                .then(resp => resp.json())
+                .then(resp => {
+                    if (resp.error) {
+                        log(`Error with eventsub Call ${type} Call: ${resp.message ? resp.message : ''}`);
+                    } else {
+                        log(`Created ${type}`);
+						//clear the scene for browser source use
+						document.getElementById("bigcontainer").style.display = "none";
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    log(`Error with eventsub Call ${type} Call: ${err.message ? err.message : ''}`);
+                });
+        }
+    </script>
+</div></div>
+<div id="animation">
+<div class="confetti-wrapper" id="confettianimation"></div>
+</div></div></div> 
+</body></html>
