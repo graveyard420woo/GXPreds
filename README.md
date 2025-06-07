@@ -20,6 +20,7 @@ Simply add it as a browser source by copying the URL after you connect your twit
 <li>Once you connect your twitch account, the page will go blank (this is a success)</li>
 <li>Test the browser source by starting a prediction with more than 2 options on your connected channel (it will pop up in the blank screen)</li>
 <li>Copy the URL from that blank browser window and paste it into a new browser source in OBS/StreamLabs/etc.. Easy!</li>
+<li>Video Tutorial Here: https://youtu.be/cUgTB71v37o</li>
 </ul>
 
 A 1920x1080 browser source works great. 1100px+ x 1100px+ width browser sources work best! The overlay will try to scale and adjust everything to fit it's given width but, at small sizes, depending on how much text is in each outcome, things can go squishh..
