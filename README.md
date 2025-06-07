@@ -27,3 +27,6 @@ A 1920x1080 browser source works great. 1100px+ x 1100px+ width browser sources 
 I am a humble artist/tech/streamer. if you would like to suggest edits, please do! If this tool has helped you along you way, I am very pleased (; this thing was hardd to build
 
 -graveyard
+
+<a href="https://graveyard420woo.github.io/GXPreds/">![GXPredsbanner](https://github.com/user-attachments/assets/66a58278-61d6-4f89-a7ac-1f2de65f2973)</a>
+
