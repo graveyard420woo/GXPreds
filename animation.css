@@ -141,7 +141,7 @@ body {
 	color: #fff;
     margin-left: 297px;
     margin-right: 11px;
-    font-size: 32px;
+    font-size: 44px;
     font-weight: bold;
 	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
 }
@@ -152,6 +152,7 @@ body {
 }
 
 #winlist li {
+  position: absolute;	
   opacity: 0; /* Fully transparent */
   margin-top:200px;
   font-weight: bold;
@@ -173,10 +174,10 @@ body {
     transition: all 1s ease-in-out;
 	color: #fff;
 	float: right;
-	width: 98%;
+	width: 92%;
     margin-left: 10px;
     margin-right: 11px;
-    font-size: 24px;
+    font-size: 34px;
     font-weight: bold;
 	align-items: left;
 	text-align: left;
@@ -191,9 +192,9 @@ body {
 }
 
 #loselist li {
+  position: absolute;
   opacity: 0; /* Fully transparent */
   margin-top:0px;
-  float: right;
   font-weight: bold;
   transition: all 1s ease-in-out;
   text-shadow: 1px 1px 1px #353535, 1px 1px 2px #252525;
