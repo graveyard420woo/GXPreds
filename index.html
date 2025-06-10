@@ -390,8 +390,20 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 				timerP2=window.setTimeout(
 					function(){
 						newPaidDiv.remove();
+						
+						timerP3=window.setTimeout(
+						function(){
+							dimTheBars();
+						},totalPredictors*3000);
+						
+						timerP4=window.setTimeout(
+						function(){
+							fadeoutTheBars();
+							container.style.opacity = '0%';
+						},totalPredictors*6000);
+						
 					},4500); 
-				timerP3=window.setTimeout(
+				/*timerP3=window.setTimeout(
 					function(){
 						dimTheBars();
 					},25500);
@@ -399,7 +411,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					function(){
 						fadeoutTheBars();
 						container.style.opacity = '0%';
-					},35000);
+					},35000);*/
 				}
 			}
 
@@ -824,17 +836,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 								}
 								
 						  }
-						  		if(i = numberOfOutcomes){	
-									if (typeof timerP4 !== 'undefined') {
-										clearTimeout(timerP4);
-									}
-									timerP4=window.setTimeout(
-									function(){
-										fadeoutTheBars();
-										document.getElementById('animation').style.opacity = '0%';
-									},(6000*totalPredictors)+6000);
-									
-								}
+						  
 					  }	
 									
                 })
