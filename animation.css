@@ -170,6 +170,7 @@ body {
 #losingdiv{
 	position: absolute;
 	z-index: 1000;
+	width: 100%;
 	top: -170px;
     padding: 4px 40px 4px 40px;
     transition: all 1s ease-in-out;
