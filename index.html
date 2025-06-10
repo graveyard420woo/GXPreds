@@ -387,7 +387,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						newPaidDiv.style.opacity = '0%';
 						newPaidDiv.style.transform = 'scale(1) rotate(-18deg)';
 					},4000);
-				timerP2=window.setTimeout(
+					
+				/*timerP2=window.setTimeout(
 					function(){
 						newPaidDiv.remove();
 						
@@ -402,16 +403,21 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 							container.style.opacity = '0%';
 						},(totalPredictors*6000)+5000);
 						
+					},4500); */
+				
+				timerP2=window.setTimeout(
+					function(){
+						newPaidDiv.remove();
 					},4500); 
-				/*timerP3=window.setTimeout(
+				timerP3=window.setTimeout(
 					function(){
 						dimTheBars();
-					},25500);
+					},35500);
 				timerP4=window.setTimeout(
 					function(){
 						fadeoutTheBars();
 						container.style.opacity = '0%';
-					},35000);*/
+					},77000);
 				}
 			}
 
@@ -680,7 +686,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			const elements = document.getElementsByClassName(className);
 			
 			if (newWidth < 1){
-				  newWidth = 1;
+				  newWidth = 10;
 			  }
 			
 			if (newWidth > newMaxWidth){
