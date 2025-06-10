@@ -136,7 +136,7 @@ body {
 	position:absolute;
 	top:-180px;
 	z-index: 1000;
-    padding: 4px 40px 4px 40px;
+    padding: 4px 40px 4px 4px;
     transition: all 1s ease-in-out;
 	color: #fff;
     margin-left: 69px;
