@@ -398,7 +398,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					function(){
 						fadeoutTheBars();
 						container.style.opacity = '0%';
-					},72000);
+					},35000);
 				}
 			}
 
@@ -763,6 +763,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 								
 								const numberOfTopPredictors = `${resp.data[0].outcomes[i].top_predictors.length}`
 								
+								totalPredictors = totalPredictors + numberOfTopPredictors;
+								
 								for (let c = 0; c < numberOfTopPredictors; c++) {
 								  const listItem = document.createElement("li"); // Create a new list item
 								  listItem.textContent = `${resp.data[0].outcomes[i].top_predictors[c].user_name}` + ' + ' + `${resp.data[0].outcomes[i].top_predictors[c].channel_points_won}`; // Set the text from array
@@ -770,7 +772,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
   								 setTimeout(() => {
 									  setTimeout(() => {
 										  listItem.style.opacity = '100%'; 
-										  listItem.style.marginTop = '70';
+										  listItem.style.marginTop = '69';
+										  document.getElementById('paiddiv').style.marginLeft = '-69';
 										}, 1000); // A small delay
 									  setTimeout(() => {
 										  listItem.style.transition = 'all .3s ease-in-out';
@@ -799,6 +802,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 
 									const numberOfTopPredictorsLose = `${resp.data[0].outcomes[i].top_predictors.length}`
 									
+									totalPredictors = totalPredictors + numberOfTopPredictorsLose;
+									
 									for (let c = 0; c < numberOfTopPredictorsLose; c++) {
 									  const listItem = document.createElement("li"); // Create a new list item
 									  listItem.textContent = `${resp.data[0].outcomes[i].top_predictors[c].user_name}` + ' - ' + `${resp.data[0].outcomes[i].top_predictors[c].channel_points_used}`; // Set the text from array
@@ -807,7 +812,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 									  setTimeout(() => {
 										  setTimeout(() => {
 											  listItem.style.opacity = '100%'; 
-											  listItem.style.marginTop = '80';
+											  listItem.style.marginTop = '84';
 											}, 1000); // A small delay
 										  setTimeout(() => {
 											  listItem.style.opacity = '0%'; 
@@ -815,6 +820,19 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 											}, 6000); // A small delay
 										   }, 5000*cLoseTime); // A small delay
 									}
+								}
+								
+								if(i = numberOfOutcomes){
+									
+									if (typeof timerP4 !== 'undefined') {
+										clearTimeout(timerP4);
+									}
+									timerP4=window.setTimeout(
+									function(){
+										fadeoutTheBars();
+										document.getElementById('animation').style.opacity = '0%';
+									},(6000*totalPredictors)+6000);
+									
 								}
 						  }
 					  }	
