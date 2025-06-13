@@ -685,8 +685,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			
 			const elements = document.getElementsByClassName(className);
 			
-			if (newWidth < 1){
-				  newWidth = 10;
+			if (newWidth < 10){
+				  newWidth = newWidth + 100;
 			  }
 			
 			if (newWidth > newMaxWidth){
@@ -836,8 +836,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 										  setTimeout(() => {
 											  listItem.style.opacity = '0%'; 
 											  listItem.style.marginTop = '180';
-											}, 6000); // A small delay
-										   }, 5000*cLoseTime); // A small delay
+											}, 5000); // A small delay
+										   }, 4000*cLoseTime); // A small delay
 									}
 								}
 								
