@@ -700,9 +700,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					const newMaxWidthTemp = newMaxWidth + elements[i].offsetWidth;
 					newWidthPercentage = (newWidth / newMaxWidthTemp) * 100;
 					percentCheck = `${(newWidthPercentage / globalWidth) * 100}`;
-					if (percentCheck > 3){
-						percentCheck = 3;
-						elements[i].style.width = `3%`;
+					if (percentCheck < 3){
+						//percentCheck = 3;
+						elements[i].style.width = (100 / numberOfDivs)+`%`;
 					} else {
 						elements[i].style.width = `${(newWidthPercentage / globalWidth) * 100}%`;	
 					}
