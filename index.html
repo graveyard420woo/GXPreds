@@ -386,7 +386,25 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					function(){
 						newPaidDiv.style.opacity = '0%';
 						newPaidDiv.style.transform = 'scale(1) rotate(-18deg)';
-					},4000);				
+					},4000);
+					
+				/*timerP2=window.setTimeout(
+					function(){
+						newPaidDiv.remove();
+						
+						timerP3=window.setTimeout(
+						function(){
+							dimTheBars();
+						},(totalPredictors*3000)+2500);
+						
+						timerP4=window.setTimeout(
+						function(){
+							fadeoutTheBars();
+							container.style.opacity = '0%';
+						},(totalPredictors*6000)+5000);
+						
+					},4500); */
+				
 				timerP2=window.setTimeout(
 					function(){
 						newPaidDiv.remove();
@@ -461,9 +479,12 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						clearOldElements();
 						
 						setTimeout(() => {
+
 							getPredStuff(my_user_id, `${id}`)
 						}, 200); // A small delay
-																
+						
+						//getPredStuff(my_user_id, `${id}`)
+										
 					});
 					socket_space.on('channel.prediction.progress', ({ metadata, payload }) => {
     					let { event } = payload;
@@ -569,14 +590,12 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					  
 					  const globalWidthHolder = document.getElementById('animation');
 					  globalWidth = globalWidthHolder.offsetWidth;
-					  //console.log(`globalWidth is ${globalWidth}`);
 					  
 					  setTimeout(() => {				
 					  for (let i = 0; i < numberOfDivs; i++) {
 						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i+1);
 					  }
 					}, 800); // A small delay
-					
 					fadeinEverything();
 					playTheStartSound();
 					totalPredictors = 0;
@@ -617,7 +636,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 							//log(`no betters on ` + i);
 						
 						} else {
-																				
+													
+							//log(`barColorUser = ${resp.data[0].outcomes[i].top_predictors[0].user_id}`);
+							
 							barColorUser = `${resp.data[0].outcomes[i].top_predictors[0].user_id}`
 							
 							doChatUsersBarColor(barColorUser, 'outcomebar-' + i)
@@ -674,9 +695,17 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			  }
 			
 			for (let i = 0; i < elements.length; i++) {
-					newWidth = newWidth + elements[i].offsetWidth;  
-					const newMaxWidthTemp = newMaxWidth + elements[i].offsetWidth;
-					newWidthPercentage = (newWidth / newMaxWidthTemp) * 100;
+					newWidth = newWidth + elements[i].offsetWidth;    
+					newWidthPercentage = (newWidth / newMaxWidth) * 100;
+					percentCheck = `${(newWidthPercentage / globalWidth) * 100}`;
+					if (percentCheck > 100){
+						percentCheck = 100;
+					}
+					
+					//slower looser way
+					//elements[i].style.width = percentCheck+`%`; //slower looser way
+					
+					//faster tighter way
 					elements[i].style.width = `${(newWidthPercentage / globalWidth) * 100}%`;
 			}
 		}
@@ -690,6 +719,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		
 		function doChatUsersBarColor(theuserid, thedivclass) {
             let url = new URL('https://api.twitch.tv/helix/chat/color?user_id='+`${theuserid}`);
+			//log('https://api.twitch.tv/helix/chat/color?user_id='+`${theuserid}`);
             fetch(
                 url,
                 {
@@ -730,6 +760,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             )
                 .then(resp => resp.json())
                 .then(resp => {
+                    //log(`Got ${resp.data[0]} for ${broadcaster_id} pred id is ${predID}`);
 					//console.dir(resp.data[0]);
 					//log(`Got winning outcome ID: ${resp.data[0].winning_outcome_id}`);
 										
