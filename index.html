@@ -696,16 +696,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			
 			for (let i = 0; i < elements.length; i++) {
 					newWidth = newWidth + elements[i].offsetWidth;    
-					newWidthPercentage = (newWidth / newMaxWidth) * 100;
-					percentCheck = `${(newWidthPercentage / globalWidth) * 100}`;
-					if (percentCheck > 100){
-						percentCheck = 100;
-					}
-					
-					//slower looser way
-					//elements[i].style.width = percentCheck+`%`; //slower looser way
-					
-					//faster tighter way
+					const newMaxWidthTemp = newMaxWidth + elements[i].offsetWidth;
+					newWidthPercentage = (newWidth / newMaxWidthTemp) * 100;
 					elements[i].style.width = `${(newWidthPercentage / globalWidth) * 100}%`;
 			}
 		}
