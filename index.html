@@ -510,11 +510,11 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             )
                 .then(resp => resp.json())
                 .then(resp => {
-					console.dir(resp.data[0]);
+					//console.dir(resp.data[0]);
 					
 					if (resp.data[0].status == "ACTIVE"){
 						
-					log(`Got ${resp.data[0].outcomes.length} outcomes`);
+					//log(`Got ${resp.data[0].outcomes.length} outcomes`);
 					if(resp.data[0].outcomes.length == 2){ // check if its a two option pred, if so don't start anything
 					} else {
 					
@@ -604,8 +604,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             )
                 .then(resp => resp.json())
                 .then(resp => {
-					console.dir(resp.data[0]);
-					log(`Got ${resp.data[0].outcomes.length} outcomes`);
+					//console.dir(resp.data[0]);
+					//log(`Got ${resp.data[0].outcomes.length} outcomes`);
 					if(resp.data[0].outcomes.length == 2){ // check if its a two option pred, if so don't start anything
 					} else {
 					
@@ -765,7 +765,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					elements[i].style.width = `${(newWidthPercentage / globalWidth) * 100}%`;
 					
 					const elementsWidth = elements[i].style.width;	
-					console.log(elementsWidth)		
+					//console.log(elementsWidth)		
 					if (zeroCheck < 1){
 						elements[i].style.width = elementsWidth;
 						//elements[i].style.width = `fit-content`;
