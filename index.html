@@ -514,6 +514,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						
 						playTheEndedAnimation(`${status}`, `${id}`);										
 					});
+					getPredStuffFirstRun(my_user_id);
 				})	
                 .catch(err => {
                     console.log(err);
@@ -1001,11 +1002,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     log(`Error with eventsub Call ${type} Call: ${err.message ? err.message : ''}`);
                 });
         }
-							
-setTimeout(() => {
-	getPredStuffFirstRun(my_user_id)
-}, 200); // A small delay
-
     </script>
 </div></div>
 <div id="animation">
