@@ -687,7 +687,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			const elements = document.getElementsByClassName(className);
 			
 			if (newWidth < 10){
-				  newWidth = newWidth + 100;
+				  newWidth = newWidth + 10;
 			  }
 			
 			if (newWidth > newMaxWidth){
@@ -695,18 +695,16 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			  }
 			
 			for (let i = 0; i < elements.length; i++) {
-					newWidth = newWidth + elements[i].offsetWidth;    
+					if(newWidth < elements[i].offsetWidth){
+						newWidth = newWidth + elements[i].offsetWidth;    
+					}
 					newWidthPercentage = (newWidth / newMaxWidth) * 100;
 					percentCheck = `${(newWidthPercentage / globalWidth) * 100}`;
-					if (percentCheck > 100){
-						percentCheck = 100;
-					}
-					
-					//slower looser way
-					//elements[i].style.width = percentCheck+`%`; //slower looser way
-					
-					//faster tighter way
 					elements[i].style.width = `${(newWidthPercentage / globalWidth) * 100}%`;
+					
+					if (percentCheck < 1){
+						elements[i].style.width = `fit-content`;
+					}
 			}
 		}
 		
