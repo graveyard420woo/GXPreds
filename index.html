@@ -685,14 +685,16 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		function changeDivWidthByClass(className, newWidth, numberOfDivs, currentDiv) {
 			
 			const elements = document.getElementsByClassName(className);
-			
-			if (newWidth < 10){
+			const zeroCheck = 0;
+			/*if (newWidth < 10){
 				  newWidth = newWidth + 10;
-			  }
+			  }*/
 			
 			if (newWidth > newMaxWidth){
 				  newMaxWidth = newWidth;
 			  }
+			
+			zeroCheck = newWidth;
 			
 			for (let i = 0; i < elements.length; i++) {
 					if(newWidth < elements[i].offsetWidth){
@@ -702,7 +704,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					percentCheck = `${(newWidthPercentage / globalWidth) * 100}`;
 					elements[i].style.width = `${(newWidthPercentage / globalWidth) * 100}%`;
 					
-					if (percentCheck < 1){
+					if (zeroCheck < 1){
 						elements[i].style.width = `fit-content`;
 					}
 			}
