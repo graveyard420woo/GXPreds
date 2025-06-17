@@ -274,6 +274,10 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			elementsToFade2.forEach(element => {
    			 element.style.opacity = "0%"
 			});
+			const elementsToFade3 = document.querySelectorAll('div[id^="timerdiv"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToFade3.forEach(element => {
+   			 element.style.opacity = "0%"
+			});
 		}
 		
 		function fadeinEverything(){
@@ -325,6 +329,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			if (typeof timerP4 !== 'undefined') {
 				clearTimeout(timerP4);
 			}
+			if (typeof intervalForTimer !== 'undefined') {
+				clearTimeout(intervalForTimer);
+			}
 			
 			const container = document.getElementById('animation');
 			const newLockedDiv = document.createElement('div');
@@ -365,6 +372,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			}
 			if (typeof timerP4 !== 'undefined') {
 				clearTimeout(timerP4);
+			}
+			if (typeof intervalForTimer !== 'undefined') {
+				clearTimeout(intervalForTimer);
 			}
 			
 			fadeinEverything();
@@ -560,6 +570,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					if (typeof timerP4 !== 'undefined') {
 						clearTimeout(timerP4);
 					}
+					if (typeof intervalForTimer !== 'undefined') {
+						clearTimeout(intervalForTimer);
+					}
 					
 					// confetti start
 					document.getElementById("confettianimation").style.display = "block";
@@ -651,6 +664,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					}
 					if (typeof timerP4 !== 'undefined') {
 						clearTimeout(timerP4);
+					}
+					if (typeof intervalForTimer !== 'undefined') {
+						clearTimeout(intervalForTimer);
 					}
 							
 					// confetti start

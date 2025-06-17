@@ -87,17 +87,17 @@ body {
 	position: fixed;
 	z-index: 1100;
 	top: 80px;
-    transition: all 2s ease-in-out ;
 	color: #fff;
-	float: right;
-	align-items: right;
-	text-align: right;
+	width: 90%;
+	align-items: center;
+	text-align: center;
     margin-right: 30%;
     font-size: 34px;
     font-weight: bold;
 	transform: scale(3) rotate(-48deg);
 	opacity:0;
 	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
+	transition: all 2s ease-in-out;
 }
 
 #lockeddiv{
