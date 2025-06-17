@@ -247,7 +247,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
    			element.style.opacity = '0%';
 			element.remove();
 			if (typeof intervalForTimer !== 'undefined') {
-				clearTimeout(intervalForTimer);
+				clearInterval(intervalForTimer);
 			}
 			});	
 			document.getElementById('animation').style.opacity = "0%";
@@ -293,10 +293,15 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			document.getElementById('animation').style.top = "150";
 		}
 		
-		function showTheTimer(seconds){
+		function showTheTimer(seconds, startTimeUTC){
 			const container = document.getElementById('animation');
 			const newTimerDiv = document.createElement('div');
 			newTimerDiv.setAttribute('id', 'timerdiv');
+			container.appendChild(newTimerDiv);
+			const nowUTC = Date.now(); // Get current UTC time in milliseconds
+			const elapsedTimeMilliseconds = nowUTC - startTimeUTC; // Calculate elapsed time in milliseconds
+			const elapsedTimeSeconds = Math.floor(elapsedTimeMilliseconds / 1000);
+			seconds = seconds - elapsedTimeSeconds;
 			let remainingSeconds = seconds;
 			newTimerDiv.style.opacity = "69%";
 			newTimerDiv.style.transform = 'scale(1) rotate(-16deg)';
@@ -312,7 +317,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 				}
 				remainingSeconds--;
 			  }, 1000);			
-			container.appendChild(newTimerDiv);
 		}
 		
 		function playTheLockedAnimation(){
@@ -330,7 +334,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 				clearTimeout(timerP4);
 			}
 			if (typeof intervalForTimer !== 'undefined') {
-				clearTimeout(intervalForTimer);
+				clearInterval(intervalForTimer);
 			}
 			
 			const container = document.getElementById('animation');
@@ -374,7 +378,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 				clearTimeout(timerP4);
 			}
 			if (typeof intervalForTimer !== 'undefined') {
-				clearTimeout(intervalForTimer);
+				clearInterval(intervalForTimer);
 			}
 			
 			fadeinEverything();
@@ -571,7 +575,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						clearTimeout(timerP4);
 					}
 					if (typeof intervalForTimer !== 'undefined') {
-						clearTimeout(intervalForTimer);
+						clearInterval(intervalForTimer);
 					}
 					
 					// confetti start
@@ -618,7 +622,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i+1);
 					  }
 					}, 800); // A small delay
-					showTheTimer(resp.data[0].prediction_window);
+					showTheTimer(resp.data[0].prediction_window, resp.data[0].created_at);
 					fadeinEverything();
 					playTheStartSound();
 					totalPredictors = 0;
@@ -666,7 +670,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						clearTimeout(timerP4);
 					}
 					if (typeof intervalForTimer !== 'undefined') {
-						clearTimeout(intervalForTimer);
+						clearInterval(intervalForTimer);
 					}
 							
 					// confetti start
@@ -713,7 +717,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i+1);
 					  }
 					}, 800); // A small delay
-					showTheTimer(resp.data[0].prediction_window);
+					showTheTimer(resp.data[0].prediction_window, resp.data[0].created_at);
 					fadeinEverything();
 					playTheStartSound();
 					totalPredictors = 0;

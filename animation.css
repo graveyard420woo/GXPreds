@@ -83,15 +83,13 @@ body {
 }
 
 #timerdiv{
-    display: inline-block;
 	position: fixed;
 	z-index: 1100;
-	top: 80px;
+	top: 90px;
 	color: #fff;
 	width: 90%;
 	align-items: center;
 	text-align: center;
-    margin-right: 30%;
     font-size: 34px;
     font-weight: bold;
 	transform: scale(3) rotate(-48deg);
