@@ -867,7 +867,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 								
 								for (let c = 0; c < numberOfTopPredictors; c++) {
 								  const listItem = document.createElement("li"); // Create a new list item
-								  listItem.textContent = `${resp.data[0].outcomes[i].top_predictors[c].user_name}` + '<p style="color:green;"> + ' + `${resp.data[0].outcomes[i].top_predictors[c].channel_points_won}` + '</p>'; // Set the text from array
+								  listItem.innerHTML = `${resp.data[0].outcomes[i].top_predictors[c].user_name}` + '<p style="color:green;"> + ' + `${resp.data[0].outcomes[i].top_predictors[c].channel_points_won}` + '</p>'; // Set the text from array
 								  ulElement.appendChild(listItem); // Append the list item to the unordered list
   								 setTimeout(() => {
 									  setTimeout(() => {
