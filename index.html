@@ -277,7 +277,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			const elementsToFade3 = document.querySelectorAll('div[id^="timerdiv"]'); // Selects divs with IDs starting with "prefix_"
 			elementsToFade3.forEach(element => {
    			 element.style.opacity = "0%"
-			 newTimerDiv.style.transform = 'scale(0.5) rotate(9deg)';
+			 element.style.transform = 'scale(0.5) rotate(9deg)';
 			});
 		}
 		
@@ -352,6 +352,11 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			newLockedDiv.textContent = 'LOCKED!';
 			container.appendChild(newLockedDiv);
 			playTheLockedSound();
+			const fadetimersout = document.querySelectorAll('div[id^="timerdiv"]'); // Selects divs with IDs starting with "prefix_"
+				fadetimersout.forEach(element => {
+				 element.style.opacity = "0%"
+				 element.style.transform = 'scale(0.5) rotate(9deg)';
+				});
 			timerL0=window.setTimeout(
 				function(){
 					newLockedDiv.style.opacity = '100%';
@@ -400,6 +405,11 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 				newRefundedDiv.textContent = 'REFUNDED!';
 				container.appendChild(newRefundedDiv);
 				playTheEndedSound();
+				const fadetimersout = document.querySelectorAll('div[id^="timerdiv"]'); // Selects divs with IDs starting with "prefix_"
+					fadetimersout.forEach(element => {
+					 element.style.opacity = "0%"
+					 element.style.transform = 'scale(0.5) rotate(9deg)';
+					});
 				timerR0=window.setTimeout(
 					function(){
 						newRefundedDiv.style.opacity = '100%';
