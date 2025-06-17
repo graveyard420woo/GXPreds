@@ -783,9 +783,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			const elements = document.getElementsByClassName(className);
 			zeroCheck = 0;
 			const elementsWidth = document.getElementsByClassName(className);
-			/*if (newWidth < 10){
-				  newWidth = newWidth + 10;
-			  }*/
 			
 			if (newWidth > newMaxWidth){
 				  newMaxWidth = newWidth;
@@ -929,6 +926,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 									  listItem.textContent = `${resp.data[0].outcomes[i].top_predictors[c].user_name}` + ' - ' + `${resp.data[0].outcomes[i].top_predictors[c].channel_points_used}`; // Set the text from array
 									  ulElement.appendChild(listItem); // Append the list item to the unordered list
 									  cLoseTime = cLoseTime + c;
+									  const cLoseTimeee = cLoseTime;
+									  console.log(cLoseTimeee);
 									  setTimeout(() => {
 										  setTimeout(() => {
 											  listItem.style.opacity = '100%'; 
@@ -938,7 +937,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 											  listItem.style.opacity = '0%'; 
 											  listItem.style.marginTop = '180';
 											}, 5000); // A small delay
-										   }, 4000*cLoseTime); // A small delay
+										   }, 4000*cLoseTimeee); // A small delay
 									}
 								}
 								
