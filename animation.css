@@ -22,7 +22,6 @@ body {
     top: 250px;
 	left: 40px;
 	width: 90%;
-	float: left;
     text-align: center;
 	display: flex;
 	opacity: 0;
