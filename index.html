@@ -535,6 +535,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                 .then(resp => resp.json())
                 .then(resp => {
 					console.dir(resp.data[0]);
+					
 					if (resp.data[0].status == "ACTIVE"){
 						
 					log(`Got ${resp.data[0].outcomes.length} outcomes`);
@@ -602,12 +603,12 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					playTheStartSound();
 					totalPredictors = 0;
 				   }
+				  }
                 })
                 .catch(err => {
                     console.log(err);
                     log('Error with Users Call');
                 });
-			}
         }
 		
 		function getPredStuff(broadcaster_id, pred_id) {
