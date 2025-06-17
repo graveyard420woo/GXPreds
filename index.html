@@ -294,11 +294,14 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		}
 		
 		function showTheTimer(seconds, startTimeUTC){
+			const utcTimeString = startTimeUTC;
+			const utcDate = new Date(utcTimeString); 
 			const nowUTC = Date.now(); // Get current UTC time in milliseconds
-			const elapsedTimeMilliseconds = nowUTC - startTimeUTC; // Calculate elapsed time in milliseconds
+			const utcTimeMilliseconds = utcDate.getTime(); 
+			const elapsedTimeMilliseconds = nowUTC - utcTimeMilliseconds; // Calculate elapsed time in milliseconds
 			const elapsedTimeSeconds = Math.floor(elapsedTimeMilliseconds / 1000);
-			//seconds = seconds - elapsedTimeSeconds;
-			console.log(nowUTC);
+			seconds = seconds - elapsedTimeSeconds;
+			//console.log(nowUTC);
 			const container = document.getElementById('animation');
 			const newTimerDiv = document.createElement('div');
 			newTimerDiv.setAttribute('id', 'timerdiv');
