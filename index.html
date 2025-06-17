@@ -520,6 +520,95 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     log('Error with Users Call');
                 });
         }
+
+		function getPredStuffFirstRun(broadcaster_id) {
+            let url = new URL('https://api.twitch.tv/helix/predictions?broadcaster_id='+broadcaster_id);
+            fetch(
+                url,
+                {
+                    "headers": {
+                        "Client-ID": client_id,
+                        "Authorization": "Bearer " + access_token
+                    }
+                }
+            )
+                .then(resp => resp.json())
+                .then(resp => {
+					console.dir(resp.data[0]);
+					if (resp.data[0].status == "ACTIVE"){
+						
+					log(`Got ${resp.data[0].outcomes.length} outcomes`);
+					if(resp.data[0].outcomes.length == 2){ // check if its a two option pred, if so don't start anything
+					} else {
+					
+					if (typeof timerL3 !== 'undefined') {
+						clearTimeout(timerL3);
+					}
+					if (typeof timerR3 !== 'undefined') {
+						clearTimeout(timerR3);
+					}
+					if (typeof timerP3 !== 'undefined') {
+						clearTimeout(timerP3);
+					}
+					if (typeof timerP4 !== 'undefined') {
+						clearTimeout(timerP4);
+					}
+					
+					// confetti start
+					document.getElementById("confettianimation").style.display = "block";
+					document.getElementById("confettianimation").style.opacity = "80";
+					const confettiWrapper = document.querySelector('.confetti-wrapper');
+					for (let i = 0; i < 50; i++) {
+					  const confetti = document.createElement('div');
+					  confetti.classList.add('confetti-piece');
+					  confetti.style.left = `${Math.random() * 100}%`;
+					  confetti.style.top = '30%';
+					  confetti.style.display = 'block';
+					  confetti.style.setProperty('--fall-duration', `${Math.random() * 2 + 4}s`);
+					  confettiWrapper.appendChild(confetti);
+					}
+					timer3a=window.setTimeout(
+						function(){
+							document.getElementById("confettianimation").style.display = "none";
+						},3900);
+					// confetti end
+					
+					const container = document.getElementById('animation');
+					const numberOfDivs = `${resp.data[0].outcomes.length}`
+										
+					  for (let i = 0; i < numberOfDivs; i++) {
+
+						const newDiv2 = document.createElement('div');
+						newDiv2.textContent = resp.data[0].outcomes[i].title;
+						newDiv2.classList.add('outcomebar-' + i);
+						newDiv2.setAttribute('id', 'outcomebar');
+						container.appendChild(newDiv2);
+						newDiv2.style.width = newDiv2.offsetWidth;
+						
+						const newDiv4 = document.createElement('div');
+						newDiv4.classList.add('outcomecp-' + i);
+						newDiv2.appendChild(newDiv4);
+					  }
+					  
+					  const globalWidthHolder = document.getElementById('animation');
+					  globalWidth = globalWidthHolder.offsetWidth;
+					  
+					  setTimeout(() => {				
+					  for (let i = 0; i < numberOfDivs; i++) {
+						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i+1);
+					  }
+					}, 800); // A small delay
+					fadeinEverything();
+					playTheStartSound();
+					totalPredictors = 0;
+				   }
+                })
+                .catch(err => {
+                    console.log(err);
+                    log('Error with Users Call');
+                });
+			}
+        }
 		
 		function getPredStuff(broadcaster_id, pred_id) {
             let url = new URL('https://api.twitch.tv/helix/predictions?broadcaster_id='+broadcaster_id+'&id='+pred_id);
@@ -911,6 +1000,13 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     log(`Error with eventsub Call ${type} Call: ${err.message ? err.message : ''}`);
                 });
         }
+		
+clearOldElements();
+						
+setTimeout(() => {
+	getPredStuffFirstRun(my_user_id)
+}, 200); // A small delay
+
     </script>
 </div></div>
 <div id="animation">
