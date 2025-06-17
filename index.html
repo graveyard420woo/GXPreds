@@ -314,7 +314,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 				const minutes = Math.floor(remainingSeconds / 60);
 				const seconds = remainingSeconds % 60;
 			
-				newTimerDiv.innerHTML = '<span style="width: 150px; text-align: left; align-items: left;">' + `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}` + '</span>';
+				newTimerDiv.innerHTML = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 	
 				newTimerDiv.style.opacity = "69%";
 				newTimerDiv.style.transform = 'scale(1) rotate(-9deg)';

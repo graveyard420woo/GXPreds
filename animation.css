@@ -87,9 +87,9 @@ body {
 	z-index: 1100;
 	top: 90px;
 	color: #fff;
-	width: 90%;
+	width: 150px;
 	align-items: center;
-	text-align: center;
+	text-align: left;
     font-size: 34px;
     font-weight: bold;
 	transform: scale(3) rotate(-48deg);
