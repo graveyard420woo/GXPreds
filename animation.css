@@ -22,7 +22,8 @@ body {
     top: 250px;
 	left: 40px;
 	width: 90%;
-    text-align: center;
+	float: left;
+    text-align: left;
 	display: flex;
 	opacity: 0;
 	transition: all 1s ease-in-out;
