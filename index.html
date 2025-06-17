@@ -464,6 +464,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                         my_user_id = resp.data[0].id;
 
                         requestHooks(resp.data[0].id, my_user_id);
+						
+						getPredStuffFirstRun(my_user_id);
 													
                     });
 
@@ -514,7 +516,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						
 						playTheEndedAnimation(`${status}`, `${id}`);										
 					});
-					getPredStuffFirstRun(my_user_id);
 				})	
                 .catch(err => {
                     console.log(err);
