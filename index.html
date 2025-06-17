@@ -534,7 +534,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
             )
                 .then(resp => resp.json())
                 .then(resp => {
-					//console.dir(resp.data[0]);
+					console.dir(resp.data[0]);
 					log(`Got ${resp.data[0].outcomes.length} outcomes`);
 					if(resp.data[0].outcomes.length == 2){ // check if its a two option pred, if so don't start anything
 					} else {
@@ -580,7 +580,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						newDiv2.textContent = resp.data[0].outcomes[i].title;
 						newDiv2.classList.add('outcomebar-' + i);
 						newDiv2.setAttribute('id', 'outcomebar');
-						console.log(newDiv2.offsetWidth)
 						container.appendChild(newDiv2);
 						newDiv2.style.width = newDiv2.offsetWidth;
 						
