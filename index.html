@@ -242,6 +242,14 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			elementsToRemove3.forEach(element => {
    			 element.remove();
 			});
+			const elementsToRemove6 = document.querySelectorAll('div[id^="timerdiv"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToRemove6.forEach(element => {
+   			element.style.opacity = '0%';
+			element.remove();
+			if (typeof intervalForTimer !== 'undefined') {
+				clearTimeout(intervalForTimer);
+			}
+			});	
 			document.getElementById('animation').style.opacity = "0%";
 			document.getElementById('animation').style.top = "250";
 		}
@@ -279,6 +287,29 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			});
 			document.getElementById('animation').style.opacity = "100%";
 			document.getElementById('animation').style.top = "150";
+		}
+		
+		function showTheTimer(seconds){
+			const container = document.getElementById('animation');
+			const newTimerDiv = document.createElement('div');
+			newTimerDiv.setAttribute('id', 'timerdiv');
+			let remainingSeconds = seconds;
+			newTimerDiv.style.opacity = "69%";
+			newTimerDiv.style.transform = 'scale(1) rotate(-16deg)';
+			const intervalForTimer = setInterval(() => {
+				const minutes = Math.floor(remainingSeconds / 60);
+				const seconds = remainingSeconds % 60;
+			
+				newTimerDiv.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+			
+				if (remainingSeconds <= 0) {
+				  clearInterval(intervalForTimer);
+				  newTimerDiv.style.opacity = "0%";
+				}
+				remainingSeconds--;
+			  }, 1000);
+			}			
+			container.appendChild(newTimerDiv);
 		}
 		
 		function playTheLockedAnimation(){
@@ -575,6 +606,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i+1);
 					  }
 					}, 800); // A small delay
+					showTheTimer(resp.data[0].prediction_window);
 					fadeinEverything();
 					playTheStartSound();
 					totalPredictors = 0;
@@ -666,6 +698,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i+1);
 					  }
 					}, 800); // A small delay
+					showTheTimer(resp.data[0].prediction_window);
 					fadeinEverything();
 					playTheStartSound();
 					totalPredictors = 0;
