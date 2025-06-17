@@ -149,6 +149,7 @@ body {
 
 #winlist {
   height: 600px;
+  white-space: nowrap;
   transition: all 1s ease-in-out;
 }
 
@@ -159,7 +160,7 @@ body {
   font-weight: bold;
   white-space: nowrap;
   transition: all 1s ease-in-out;
-  text-shadow: 1px 1px 1px #353535, 1px 1px 2px #252525;
+  text-shadow: 2px 2px 2px #353535, 2px 2px 3px #252525;
 }
 
 #winlist li::marker {
@@ -181,8 +182,8 @@ body {
     margin-right: 11px;
     font-size: 34px;
     font-weight: bold;
-	align-items: left;
-	text-align: left;
+	align-items: right;
+	text-align: right;
 	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
 }
 
@@ -190,6 +191,7 @@ body {
   height: 600px;
   float: right;
   margin-right: 66px;
+  white-space: nowrap;
   transition: all 1s ease-in-out;
 }
 
