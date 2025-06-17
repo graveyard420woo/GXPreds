@@ -277,6 +277,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			const elementsToFade3 = document.querySelectorAll('div[id^="timerdiv"]'); // Selects divs with IDs starting with "prefix_"
 			elementsToFade3.forEach(element => {
    			 element.style.opacity = "0%"
+			 newTimerDiv.style.transform = 'scale(0.5) rotate(9deg)';
 			});
 		}
 		
@@ -307,8 +308,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			newTimerDiv.setAttribute('id', 'timerdiv');
 			container.appendChild(newTimerDiv);
 			let remainingSeconds = seconds;
-			newTimerDiv.style.opacity = "69%";
-			newTimerDiv.style.transform = 'scale(1) rotate(-16deg)';
+			newTimerDiv.style.opacity = "0%";
+			newTimerDiv.style.transform = 'scale(3) rotate(-48deg)';
 			intervalForTimer = window.setInterval(() => {
 				const minutes = Math.floor(remainingSeconds / 60);
 				const seconds = remainingSeconds % 60;
@@ -316,11 +317,12 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 				newTimerDiv.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 	
 				newTimerDiv.style.opacity = "69%";
-				newTimerDiv.style.transform = 'scale(1) rotate(-16deg)';
+				newTimerDiv.style.transform = 'scale(1) rotate(-9deg)';
 			
 				if (remainingSeconds <= 0) {
 				  clearInterval(intervalForTimer);
 				  newTimerDiv.style.opacity = "0%";
+				  newTimerDiv.style.transform = 'scale(0.5) rotate(9deg)';
 				}
 				remainingSeconds--;
 			  }, 1000);			
