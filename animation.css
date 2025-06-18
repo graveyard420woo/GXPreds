@@ -208,6 +208,8 @@ body {
   height: 600px;
   float: right;
   margin-right: 66px;
+  align-items: right;
+  text-align: right;
   white-space: nowrap;
   transition: all 1s ease-in-out;
 }
@@ -218,6 +220,9 @@ body {
   margin-top:0px;
   font-weight: bold;
   white-space: nowrap;
+  margin-right: 66px;
+  align-items: right;
+  text-align: right;
   transition: all 1s ease-in-out;
   text-shadow: 1px 1px 1px #353535, 1px 1px 2px #252525;
 }
