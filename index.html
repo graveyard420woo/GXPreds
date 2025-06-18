@@ -936,24 +936,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 							  	//console.log(`${resp.data[0].outcomes[i].title} didnt win `);
 								changeDivColorByClassUser('outcomebar-' + i, 'rgba(204, 204, 204, 0.5)');
 								
-								if (resp.data[0].outcomes[i].top_predictors){
-									
-									const container = document.getElementById('animation');
-									const newLosingDiv = document.createElement('div');
-									const ulElement = document.createElement("ul");
-	
-									newLosingDiv.setAttribute('id', 'losingdiv');
-									ulElement.setAttribute('id', 'loselist');
-									container.appendChild(newLosingDiv);
-									newLosingDiv.appendChild(ulElement);
-
-									const numberOfTopPredictorsLose = `${resp.data[0].outcomes[i].top_predictors.length}`
-									
-									totalPredictors = totalPredictors + numberOfTopPredictorsLose;
-									
-									
-									
-									const listItem = document.createElement("li"); // Create a new list item
+								const listItem = document.createElement("li"); // Create a new list item
 									  listItem.innerHTML = `biiiggggLONNNGUSERNAMMEEE` + '<span style="color:#ED1A3B;"> - ' + `1000000000` + '</span>';
 									  ulElement.appendChild(listItem); // Append the list item to the unordered list
 									  const cLoseTimeee = cLoseTime;
@@ -969,7 +952,21 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 											  listItem.style.marginTop = '180';
 											}, 5000); // A small delay
 										   }, 4000*cLoseTimeee); // A small delay
+								
+								if (resp.data[0].outcomes[i].top_predictors){
 									
+									const container = document.getElementById('animation');
+									const newLosingDiv = document.createElement('div');
+									const ulElement = document.createElement("ul");
+	
+									newLosingDiv.setAttribute('id', 'losingdiv');
+									ulElement.setAttribute('id', 'loselist');
+									container.appendChild(newLosingDiv);
+									newLosingDiv.appendChild(ulElement);
+
+									const numberOfTopPredictorsLose = `${resp.data[0].outcomes[i].top_predictors.length}`
+									
+									totalPredictors = totalPredictors + numberOfTopPredictorsLose;
 									
 									for (let c = 0; c < numberOfTopPredictorsLose; c++) {
 									  const listItem = document.createElement("li"); // Create a new list item
