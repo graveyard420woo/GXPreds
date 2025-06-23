@@ -347,10 +347,10 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			}
 			
 			const container = document.getElementById('animation');
-			const newLockedDiv = document.createElement('div');
-			newLockedDiv.setAttribute('id', 'lockeddiv');
-			newLockedDiv.textContent = 'LOCKED!';
-			container.appendChild(newLockedDiv);
+			const newLockedDiv = document.createElement('div'); // make a new div
+			newLockedDiv.setAttribute('id', 'lockeddiv'); // give it an id
+			newLockedDiv.textContent = 'LOCKED!'; // add some text
+			container.appendChild(newLockedDiv); // add it to the page
 			playTheLockedSound();
 			const fadetimersout = document.querySelectorAll('div[id^="timerdiv"]'); // Selects divs with IDs starting with "prefix_"
 				fadetimersout.forEach(element => {
@@ -635,8 +635,11 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					  
 					  const globalWidthHolder = document.getElementById('animation');
 					  globalWidth = globalWidthHolder.offsetWidth;
+					  console.log('globalwidth is:'+globalWidth);
 					  
-					  setTimeout(() => {				
+					  setTimeout(() => {
+					   globalWidth = globalWidthHolder.offsetWidth;
+					   console.log('globalwidth is:'+globalWidth);				
 					  for (let i = 0; i < numberOfDivs; i++) {
 						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i+1);
 					  }
@@ -731,6 +734,13 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					  const globalWidthHolder = document.getElementById('animation');
 					  globalWidth = globalWidthHolder.offsetWidth;
 					  
+					setTimeout(() => {
+					   globalWidth = globalWidthHolder.offsetWidth;
+					   console.log('globalwidth is:'+globalWidth);				
+					  for (let i = 0; i < numberOfDivs; i++) {
+						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i+1);
+					  }
+					}, 800);  
 					showTheTimer(resp.data[0].prediction_window, resp.data[0].created_at);
 					fadeinEverything();
 					playTheStartSound();
