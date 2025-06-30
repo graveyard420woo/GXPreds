@@ -176,6 +176,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		var cLoseTime = 0;
 		var totalPredictors = 0;
 		var zeroCheck = 0;
+		let barDataQueue = [];
 								
 		document.getElementById('authorize').setAttribute('href', 'https://id.twitch.tv/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + encodeURIComponent(redirect) + '&response_type=token&scope=channel:manage:predictions');
 
@@ -641,7 +642,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					   globalWidth = globalWidthHolder.offsetWidth;
 					   console.log('globalwidth is:'+globalWidth);				
 					  for (let i = 0; i < numberOfDivs; i++) {
-						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i+1);
+						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i);
 					  }
 					}, 800); // A small delay
 					showTheTimer(resp.data[0].prediction_window, resp.data[0].created_at);
@@ -738,7 +739,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					   globalWidth = globalWidthHolder.offsetWidth;
 					   console.log('globalwidth is:'+globalWidth);				
 					  for (let i = 0; i < numberOfDivs; i++) {
-						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i+1);
+						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i);
 					  }
 					}, 800);  
 					showTheTimer(resp.data[0].prediction_window, resp.data[0].created_at);
@@ -771,7 +772,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					
 					  for (let i = 0; i < numberOfDivs; i++) {
 						  
-						changeDivWidthByClass('outcomebar-' + i, `${resp.data[0].outcomes[i].channel_points}`, numberOfDivs, i+1);
+						changeDivWidthByClass('outcomebar-' + i, `${resp.data[0].outcomes[i].channel_points}`, numberOfDivs, i);
 						countUpToCPointsNumber('outcomecp-' + i, `${resp.data[0].outcomes[i].channel_points}`, `${resp.data[0].outcomes[i].title}`);
 						
 						if (`${resp.data[0].outcomes[i].users}` == 0) { 
@@ -822,23 +823,40 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 				
 		function changeDivWidthByClass(className, newWidth, numberOfDivs, currentDiv) {
 			
-			const elements = document.getElementsByClassName(className);
+			 // 1. Add the value for the current bar to our queue.
+			  barDataQueue.push(newWidth);
 			
-			if (newWidth > newMaxWidth){
-				  newMaxWidth = newWidth;
-			  }
-						
-			if (newWidth > 1000){
+			  // 2. Check if this is the LAST bar in the set.
+			  if (currentDiv === numberOfDivs - 1) {
+				
+				const elements = document.getElementsByClassName(className);
+				const maxValueInData = Math.max(...barDataQueue);
+			
+				// 3. Loop through the elements and set their final width.
 				for (let i = 0; i < elements.length; i++) {
-						if(newWidth < elements[i].offsetWidth){
-							newWidth = newWidth + elements[i].offsetWidth;    
-						}
-						newWidthPercentage = (newWidth / newMaxWidth) * 100;
-						percentCheck = `${(newWidthPercentage / globalWidth) * 100}`;
-						console.log(percentCheck)
-						elements[i].style.width = `${(newWidthPercentage / globalWidth) * 100}%`;
+				  // --- NEW: Get the bar's initial width directly from the DOM ---
+				  // .offsetWidth is perfect here as it returns the rendered width in pixels as a number.
+				  const initialWidth = elements[i].offsetWidth;
+			
+				  const currentValue = barDataQueue[i];
+				  let calculatedPixelWidth = 0;
+			
+				  if (maxValueInData > 0) {
+					calculatedPixelWidth = (currentValue / maxValueInData) * globalWidth;
+				  }
+				  
+				  // --- NEW: Compare the calculated width with the initial width ---
+				  // Math.max() will return the larger of the two values.
+				  // This ensures the bar's width will either grow or stay the same, but never shrink.
+				  const finalPixelWidth = Math.max(calculatedPixelWidth, initialWidth);
+				  
+				  // 4. Apply the final, validated width to the element.
+				  elements[i].style.width = `${finalPixelWidth}px`;
 				}
-			}
+			
+				// 5. IMPORTANT: Reset the queue for the next API call.
+				barDataQueue = [];
+			  }
 		}
 		
 		function changeDivColorByClassUser(className, newBgColor) {
