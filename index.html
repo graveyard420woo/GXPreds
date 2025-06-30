@@ -176,7 +176,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		var cLoseTime = 0;
 		var totalPredictors = 0;
 		var zeroCheck = 0;
-		let barDataQueue = [];
 								
 		document.getElementById('authorize').setAttribute('href', 'https://id.twitch.tv/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + encodeURIComponent(redirect) + '&response_type=token&scope=channel:manage:predictions');
 
@@ -285,7 +284,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		function fadeinEverything(){
 			const elementsToFadein1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
 			elementsToFadein1.forEach(element => {
-   			 element.style.opacity = "90%"
+   			 element.style.opacity = "100%"
 			});	
 			const elementsToFadein2 = document.querySelectorAll('div[id^="outcomename"]'); // Selects divs with IDs starting with "prefix_"
 			elementsToFadein2.forEach(element => {
@@ -834,6 +833,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			  return function processSingleBar(newWidth) {
 				callCount++;
 				dataQueue.push(newWidth);
+				console.log(newWidth);
 			
 				// Is this the last piece of data we were expecting for THIS batch?
 				if (callCount === numberOfDivs) {
