@@ -97,6 +97,8 @@ body {
 	opacity:0;
 	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
 	transition: all 2s ease-in-out;
+	transition:
+    margin-left 4.5s ease-in-out;
 }
 
 #lockeddiv{
