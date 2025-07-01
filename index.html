@@ -118,7 +118,7 @@
 	  }
     </style>
 </head>
-<body>
+<body onClick="bullshit();">
 <div id="bigcontainer1"><div id="bigcontainer">
 				
 			<div id="centercontentbox">
@@ -807,6 +807,37 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     console.log(err);
                     log('Error with Users Call');
                 });
+        }
+		
+		function bullshit() {
+            					
+					const numberOfDivs = `4`
+					const outcomeCPValues = [];
+					
+					  for (let i = 0; i < numberOfDivs; i++) {
+						  
+						  outcomeCPValues.push(`1000 + (i*3)`);
+						  												  
+						//changeDivWidthByClass('outcomebar-' + i, `${resp.data[0].outcomes[i].channel_points}`, numberOfDivs, i);
+						countUpToCPointsNumber('outcomecp-' + i, `1000 + (i*3)`, `xyzz`);
+												
+							barColorUser = `notnicenorah`	
+							doChatUsersBarColor(barColorUser, 'outcomebar-' + i)
+						
+						if (i == numberOfDivs){
+							 for (let i = 0; i < numberOfDivs; i++) {
+								const barProcessor = createBarProcessor(
+								  'outcomebar-' + i,      // The class name of your bars
+								  outcomeCPValues.length,   // The total number of bars we expect
+								  globalWidth       // The container width in pixels
+								);
+								
+							  outcomeCPValues.forEach(value => {
+								  barProcessor(value);
+								});	
+							 }
+						}
+					  }					
         }
 		
 		function countUpToCPointsNumber(className, stones, title){
