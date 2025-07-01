@@ -804,10 +804,15 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 							 for (let i = 0; i < numberOfDivs; i++) {
 								addTheBarsMoveTimer();
 								countUpToCPointsNumber('outcomecp-' + i, `${resp.data[0].outcomes[i].channel_points}`, `${resp.data[0].outcomes[i].title}`);
+								const allowedToScale = 1;
+								if (`${resp.data[0].outcomes[i].channel_points}` == 0){
+									allowedToScale = 0;
+								}
 								const barProcessor = createBarProcessor(
-								  'outcomebar-' + i,      // The class name of your bars
+								  'outcomebar-' + i,      // The class name of the bar
 								  outcomeCPValues.length,   // The total number of bars we expect
-								  globalWidth       // The container width in pixels
+								  globalWidth,       // The container width in pixels
+								  allowedToScale
 								);
 								
 							  outcomeCPValues.forEach(value => {
@@ -893,7 +898,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		 * @param {number} globalWidth - The maximum possible width in pixels.
 		 * @returns {Function} A new processor function to be called for each data point.
 		 */
-		function createBarProcessor(className, totalBars, globalXWidth) {
+		function createBarProcessor(className, totalBars, globalXWidth, scaleCheck) {
 		  // --- Private State ---
 		  // This data is protected within the closure. Each call to the factory
 		  // creates a NEW queue and counter.
@@ -921,7 +926,9 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 				}
 		
 				const finalPixelWidth = Math.max(calculatedPixelWidth, initialWidth);
-				elements[i].style.width = `${finalPixelWidth}px`;
+				if(scaleCheck == 1){
+					elements[i].style.width = `${finalPixelWidth}px`;
+				}
 			  }
 			  // No need to reset the queue, because this entire function and its
 			  // state will be discarded after it's done.
