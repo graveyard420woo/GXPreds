@@ -804,7 +804,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 							 for (let i = 0; i < numberOfDivs; i++) {
 								addTheBarsMoveTimer();
 								countUpToCPointsNumber('outcomecp-' + i, `${resp.data[0].outcomes[i].channel_points}`, `${resp.data[0].outcomes[i].title}`);
-								const allowedToScale = 1;
+								let allowedToScale = 1;
 								if (`${resp.data[0].outcomes[i].channel_points}` == 0){
 									allowedToScale = 0;
 								}
