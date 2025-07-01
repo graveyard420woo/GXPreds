@@ -769,10 +769,13 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                 .then(resp => {
 					//console.dir(resp.data[0]);					
 					const numberOfDivs = `${resp.data[0].outcomes.length}`
+					const outcomeCPValues;
 					
 					  for (let i = 0; i < numberOfDivs; i++) {
 						  
-						changeDivWidthByClass('outcomebar-' + i, `${resp.data[0].outcomes[i].channel_points}`, numberOfDivs, i);
+						  outcomeCPValues.push(`${resp.data[0].outcomes[i].channel_points}`);
+						  												  
+						//changeDivWidthByClass('outcomebar-' + i, `${resp.data[0].outcomes[i].channel_points}`, numberOfDivs, i);
 						countUpToCPointsNumber('outcomecp-' + i, `${resp.data[0].outcomes[i].channel_points}`, `${resp.data[0].outcomes[i].title}`);
 						
 						if (`${resp.data[0].outcomes[i].users}` == 0) { 
@@ -783,6 +786,20 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 																				
 							barColorUser = `${resp.data[0].outcomes[i].top_predictors[0].user_id}`	
 							doChatUsersBarColor(barColorUser, 'outcomebar-' + i)
+						}
+						
+						if (i == numberOfDivs){
+							 for (let i = 0; i < numberOfDivs; i++) {
+								const barProcessor = createBarProcessor(
+								  'outcomebar-' + i,      // The class name of your bars
+								  outcomeCPValues.length,   // The total number of bars we expect
+								  globalWidth       // The container width in pixels
+								);
+								
+							  outcomeCPValues.forEach(value => {
+								  barProcessor(value);
+								});	
+							 }
 						}
 					  }					
                 })
@@ -819,6 +836,57 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					counterElement.textContent = Math.round(currentNumber); // Update the displayed number, rounded to the nearest integer
 				}
 			}, interval);	
+		}
+		
+		/**
+		 * Creates and returns a new bar processing function with its own private state.
+		 * This prevents race conditions from overlapping API calls.
+		 *
+		 * @param {string} className - The class name of the bar elements.
+		 * @param {number} totalBars - The TOTAL number of bars expected in this batch.
+		 * @param {number} globalWidth - The maximum possible width in pixels.
+		 * @returns {Function} A new processor function to be called for each data point.
+		 */
+		function createBarProcessor(className, totalBars, globalXWidth) {
+		  // --- Private State ---
+		  // This data is protected within the closure. Each call to the factory
+		  // creates a NEW queue and counter.
+		  let dataQueue = [];
+		  let callCount = 0;
+		  // ---
+		
+		  // The factory returns this function
+		  return function processSingleBar(value) {
+			callCount++;
+			dataQueue.push(value);
+		
+			// Is this the last piece of data we were expecting for THIS batch?
+			if (callCount === totalBars) {
+			  // This block only runs once when the batch is complete.
+			  const elements = document.getElementsByClassName(className);
+			  const maxValueInData = Math.max(...dataQueue);
+		
+			  if (elements.length !== totalBars) {
+				console.error("Mismatch: Number of DOM elements does not match expected number of bars.");
+				return; // Exit to prevent errors
+			  }
+		
+			  for (let i = 0; i < elements.length; i++) {
+				const initialWidth = elements[i].offsetWidth;
+				const currentValue = dataQueue[i];
+				let calculatedPixelWidth = 0;
+		
+				if (maxValueInData > 0) {
+				  calculatedPixelWidth = (currentValue / maxValueInData) * globalXWidth;
+				}
+		
+				const finalPixelWidth = Math.max(calculatedPixelWidth, initialWidth);
+				elements[i].style.width = `${finalPixelWidth}px`;
+			  }
+			  // No need to reset the queue, because this entire function and its
+			  // state will be discarded after it's done.
+			}
+		  };
 		}
 				
 		function changeDivWidthByClass(className, newWidth, numberOfDivs, currentDiv) {
