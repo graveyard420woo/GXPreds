@@ -176,6 +176,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		var cLoseTime = 0;
 		var totalPredictors = 0;
 		var zeroCheck = 0;
+		var totalbarwidthtogether = 0;
 		let barDataQueue = [];
 								
 		document.getElementById('authorize').setAttribute('href', 'https://id.twitch.tv/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + encodeURIComponent(redirect) + '&response_type=token&scope=channel:manage:predictions');
@@ -266,6 +267,15 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			});
 		}
 		
+		function addTheBarsMoveTimer(){
+			totalbarwidthtogether = 0;
+			const elementsToAdd1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
+			elementsToAdd1.forEach(element => {
+   			totalbarwidthtogether = totalbarwidthtogether + element.style.width;
+			document.getElementById('timerdiv').marginLeft = totalbarwidthtogether/2+'px';
+			});	
+		}
+		
 		function fadeoutTheBars(){
 			const elementsToFade1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
 			elementsToFade1.forEach(element => {
@@ -285,7 +295,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		function fadeinEverything(){
 			const elementsToFadein1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
 			elementsToFadein1.forEach(element => {
-   			 element.style.opacity = "90%"
+   			 element.style.opacity = "96%"
 			});	
 			const elementsToFadein2 = document.querySelectorAll('div[id^="outcomename"]'); // Selects divs with IDs starting with "prefix_"
 			elementsToFadein2.forEach(element => {
@@ -811,7 +821,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		
 		function bullshit() {
             					
-					const numberOfDivs = `4`
+					const numberOfDivs = `5`
 					const outcomeCPValues = [];
 					
 					  for (let i = 0; i < numberOfDivs; i++) {
@@ -825,6 +835,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						
 						if (i+1 == numberOfDivs){
 							 for (let i = 0; i < numberOfDivs; i++) {
+								addTheBarsMoveTimer();
 								countUpToCPointsNumber('outcomecp-' + i, 1000*i+5, `xyzz`);
 								const barProcessor = createBarProcessor(
 								  'outcomebar-' + i,      // The class name of your bars

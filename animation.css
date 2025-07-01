@@ -90,7 +90,7 @@ body {
 	width: 150px;
 	align-items: center;
 	text-align: left;
-	margin-left: 45%;
+	margin-left: 0px;
     font-size: 34px;
     font-weight: bold;
 	transform: scale(3) rotate(-48deg);
