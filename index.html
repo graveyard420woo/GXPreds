@@ -272,7 +272,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			const elementsToAdd1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
 			elementsToAdd1.forEach(element => {
    			totalbarwidthtogether = totalbarwidthtogether + element.offsetWidth;
-			document.getElementById('timerdiv').style.marginLeft = Math.floor(totalbarwidthtogether/2)+'px';
+			document.getElementById('timerdiv').style.marginLeft = Math.floor(totalbarwidthtogether/2)-80+'px';
 			console.log(Math.floor(totalbarwidthtogether/2)+'px');
 			});	
 		}
@@ -751,6 +751,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					   console.log('globalwidth is:'+globalWidth);				
 					  for (let i = 0; i < numberOfDivs; i++) {
 						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i);
+						addTheBarsMoveTimer();
 					  }
 					}, 800);  
 					showTheTimer(resp.data[0].prediction_window, resp.data[0].created_at);
@@ -903,9 +904,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		  // The factory returns this function
 		  return function processSingleBar(value) {
 			callCount++;
-			dataQueue.push(value);
-			console.log('pushed value');
-		
+			dataQueue.push(value);		
 			// Is this the last piece of data we were expecting for THIS batch?
 			if (callCount === totalBars) {
 			  // This block only runs once when the batch is complete.
@@ -923,7 +922,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		
 				const finalPixelWidth = Math.max(calculatedPixelWidth, initialWidth);
 				elements[i].style.width = `${finalPixelWidth}px`;
-				console.log('done the width');
 			  }
 			  // No need to reset the queue, because this entire function and its
 			  // state will be discarded after it's done.
