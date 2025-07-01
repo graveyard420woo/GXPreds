@@ -271,8 +271,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			totalbarwidthtogether = 0;
 			const elementsToAdd1 = document.querySelectorAll('div[id^="outcomebar"]'); // Selects divs with IDs starting with "prefix_"
 			elementsToAdd1.forEach(element => {
-   			totalbarwidthtogether = totalbarwidthtogether + element.style.width;
-			document.getElementById('timerdiv').marginLeft = totalbarwidthtogether/2;
+   			totalbarwidthtogether = totalbarwidthtogether + element.style.offsetWidth;
+			document.getElementById('timerdiv').marginLeft = totalbarwidthtogether/2+'px';
 			console.log(totalbarwidthtogether);
 			});	
 		}
