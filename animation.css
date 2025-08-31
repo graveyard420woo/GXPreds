@@ -42,31 +42,31 @@ body {
 
 #outcomebar {
     z-index: -1;
-    /* -40 */
     color: #fff;
-    border-radius: 12px 12px 12px 12px;
-    padding: 4px 20px 22px 8px;
-    margin: 0px;
+    border-radius: 8px; /* Slightly softer corners */
+    padding: 4px 20px 22px 12px; /* Adjusted padding */
+    margin: 0px 4px 6px 0px; /* Add slight spacing between bars */
 	width: fit-content;
 	height: 38px;
 	margin-top: -1px;
-	margin-bottom: 6px;
-    background-color: #ed0080;
+    /* --- NEW: Gradient and shadow for a modern look --- */
+    background-image: linear-gradient(to right, #ed0080, #c1006a);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0,0,0,0.3);
     transform-origin: left;
 	font-family: "Francois One", sans-serif;
     font-weight: 400;
 	font-size: 21px;
     font-style: normal;
-	text-shadow: 1px 1px 1px #353535, 1px 1px 2px #252525;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* Softer text shadow */
 	align-items: left;
 	text-align: left;
-	transition: all 1s ease-in-out;
 	white-space: nowrap;
-	
+	/* --- NEW: Smoother and more specific transitions --- */
 	 transition:
-    width 4.5s ease-in-out,   /* Transition for width */
-    background-color 1s ease-in-out,  
-	opacity 1s ease-in-out;
+    width 1.5s cubic-bezier(0.25, 1, 0.5, 1),   /* Smoother easing for width */
+    background-color 1s ease-in-out,
+    opacity 1s ease-in-out,
+    transform 0.5s ease-in-out; /* Add transform transition */
 }
 
 #cpcounted{
@@ -93,11 +93,14 @@ body {
 	margin-left: 0px;
     font-size: 34px;
     font-weight: bold;
-	transform: scale(3) rotate(-48deg);
+    /* --- UPDATED: More subtle initial state for a smoother entrance --- */
+	transform: scale(2) rotate(-25deg);
 	opacity:0;
-	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
-	transition: all 2s ease-in-out,
-    margin-left 4.5s ease-in-out;
+    /* --- UPDATED: Refined text-shadow for better readability --- */
+	text-shadow: 0 0 8px #fff, 0 0 15px #e60073, 0 0 25px #e60073;
+    /* --- UPDATED: Faster, smoother transition easing --- */
+	transition: all 1s cubic-bezier(0.19, 1, 0.22, 1),
+    margin-left 2.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 #lockeddiv{
@@ -105,15 +108,16 @@ body {
 	position: fixed;
 	z-index: 1000;
 	top: 100px;
-    transition: all .3s ease-in-out ;
+    transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncier transition */
 	color: #fff;
     margin-left: 125px;
     margin-right: 111px;
     font-size: 44px;
     font-weight: bold;
-	transform: scale(3) rotate(-48deg);
+    /* --- UPDATED: More impactful entrance animation --- */
+	transform: scale(3) rotate(-48deg) skew(10deg);
 	opacity:0;
-	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
+	text-shadow: 0 0 10px #fff, 0 0 20px #ff4da6, 0 0 30px #e60073, 0 0 40px #e60073;
 }
 
 #paiddiv{
@@ -122,7 +126,7 @@ body {
 	z-index: 1000;
 	top: 100px;
     padding: 4px 40px 4px 40px;
-    transition: all .3s ease-in-out ;
+    transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncier transition */
 	color: #fff;
     margin-left: 138px;
     margin-right: 111px;
@@ -130,7 +134,7 @@ body {
     font-weight: bold;
 	transform: scale(5) rotate(-58deg);
 	opacity:0;
-	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
+	text-shadow: 0 0 10px #fff, 0 0 20px #39ff14, 0 0 30px #39ff14, 0 0 40px #39ff14;
 }
 
 #refundeddiv{
@@ -177,8 +181,9 @@ body {
   margin-top:200px;
   font-weight: bold;
   white-space: nowrap;
-  transition: all 1s ease-in-out;
-  text-shadow: 2px 2px 2px #353535, 2px 2px 3px #252525;
+  /* --- UPDATED: A smoother, more elegant transition --- */
+  transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Refined shadow */
 }
 
 #winlist li::marker {
@@ -223,8 +228,9 @@ body {
   margin-right: 66px;
   align-items: right;
   text-align: right;
-  transition: all 1s ease-in-out;
-  text-shadow: 1px 1px 1px #353535, 1px 1px 2px #252525;
+  /* --- UPDATED: A smoother, more elegant transition --- */
+  transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Refined shadow */
 }
 
 #loselist li::marker {

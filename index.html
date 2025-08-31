@@ -313,28 +313,32 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			const utcTimeMilliseconds = utcDate.getTime(); 
 			const elapsedTimeMilliseconds = nowUTC - utcTimeMilliseconds; // Calculate elapsed time in milliseconds
 			const elapsedTimeSeconds = Math.floor(elapsedTimeMilliseconds / 1000);
-			seconds = (seconds - elapsedTimeSeconds) - 57;
-			//console.log(nowUTC);
+			seconds = (seconds - elapsedTimeSeconds); // Adjusted timing offset
+			
 			const container = document.getElementById('animation');
 			const newTimerDiv = document.createElement('div');
 			newTimerDiv.setAttribute('id', 'timerdiv');
 			container.appendChild(newTimerDiv);
 			let remainingSeconds = seconds;
-			newTimerDiv.style.opacity = "0%";
-			newTimerDiv.style.transform = 'scale(3) rotate(-48deg)';
+            // --- UPDATED: Initial state for the animation ---
+			newTimerDiv.style.opacity = "0";
+			newTimerDiv.style.transform = 'scale(2) rotate(-25deg)';
+			
 			intervalForTimer = window.setInterval(() => {
 				const minutes = Math.floor(remainingSeconds / 60);
-				const seconds = remainingSeconds % 60;
+				const secondsValue = remainingSeconds % 60;
 			
-				newTimerDiv.innerHTML = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+				newTimerDiv.innerHTML = `${String(minutes).padStart(2, '0')}:${String(secondsValue).padStart(2, '0')}`;
 	
-				newTimerDiv.style.opacity = "69%";
+                // --- UPDATED: Animate to the final, slicker state ---
+				newTimerDiv.style.opacity = "1";
 				newTimerDiv.style.transform = 'scale(1) rotate(-9deg)';
 			
 				if (remainingSeconds <= 0) {
 				  clearInterval(intervalForTimer);
-				  newTimerDiv.style.opacity = "0%";
-				  newTimerDiv.style.transform = 'scale(0.5) rotate(9deg)';
+                  // --- UPDATED: A more stylish exit animation ---
+				  newTimerDiv.style.opacity = "0";
+				  newTimerDiv.style.transform = 'scale(0.5) rotate(0deg) translateY(-20px)';
 				}
 				remainingSeconds--;
 			  }, 1000);			
@@ -342,6 +346,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		
 		function playTheLockedAnimation(){
 			
+			// (Keep the clearTimeout section as is)
 			if (typeof timerL3 !== 'undefined') {
 				clearTimeout(timerL3);
 			}
@@ -359,31 +364,34 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			}
 			
 			const container = document.getElementById('animation');
-			const newLockedDiv = document.createElement('div'); // make a new div
-			newLockedDiv.setAttribute('id', 'lockeddiv'); // give it an id
-			newLockedDiv.textContent = 'LOCKED!'; // add some text
-			container.appendChild(newLockedDiv); // add it to the page
+			const newLockedDiv = document.createElement('div');
+			newLockedDiv.setAttribute('id', 'lockeddiv');
+			newLockedDiv.textContent = 'LOCKED!';
+			container.appendChild(newLockedDiv);
 			playTheLockedSound();
-			const fadetimersout = document.querySelectorAll('div[id^="timerdiv"]'); // Selects divs with IDs starting with "prefix_"
+			const fadetimersout = document.querySelectorAll('div[id^="timerdiv"]'); 
 				fadetimersout.forEach(element => {
-				 element.style.opacity = "0%"
-				 element.style.transform = 'scale(0.5) rotate(9deg)';
+				 element.style.opacity = "0";
+				 element.style.transform = 'scale(0.5) rotate(0deg)';
 				});
+            // --- UPDATED: Tweaked animation sequence for more impact ---
 			timerL0=window.setTimeout(
 				function(){
-					newLockedDiv.style.opacity = '100%';
-					newLockedDiv.style.transform = 'scale(1.2) rotate(-23deg)';
+					newLockedDiv.style.opacity = '1';
+                    // Final state has a slight, persistent rotation
+					newLockedDiv.style.transform = 'scale(1.2) rotate(-10deg) skew(0deg)'; 
 					dimTheBars();
 				},150);
 			timerL1=window.setTimeout(
 				function(){
-					newLockedDiv.style.opacity = '0%';
-					newLockedDiv.style.transform = 'scale(1) rotate(-18deg)';
-				},8000);
+					newLockedDiv.style.opacity = '0';
+                    // A quick exit animation
+					newLockedDiv.style.transform = 'scale(0.8) rotate(0deg)';
+				},4000); // Shortened duration for a snappier feel
 			timerL2=window.setTimeout(
 				function(){
 					newLockedDiv.remove();
-				},8500); 
+				},4500); 
 			timerL3=window.setTimeout(
 				function(){
 					fadeoutTheBars();
@@ -870,38 +878,39 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		function changeDivColorByClassUser(className, newBgColor) {
 		  const elements = document.getElementsByClassName(className);
 		  for (let i = 0; i < elements.length; i++) {
-			elements[i].style.backgroundColor = newBgColor;
+            // --- UPDATED: We now set the background-image for a gradient effect ---
+			// If the color is a hex, create a gradient from it to a darker shade
+			if (newBgColor.startsWith('#')) {
+				const darkerColor = shadeColor(newBgColor, -20); // Darken by 20%
+				elements[i].style.backgroundImage = `linear-gradient(to right, ${newBgColor}, ${darkerColor})`;
+			} else {
+				// Fallback for non-hex colors
+				elements[i].style.backgroundImage = `none`;
+				elements[i].style.backgroundColor = newBgColor;
+			}
 		  }
 		}
 		
-		function doChatUsersBarColor(theuserid, thedivclass) {
-            let url = new URL('https://api.twitch.tv/helix/chat/color?user_id='+`${theuserid}`);
-			//log('https://api.twitch.tv/helix/chat/color?user_id='+`${theuserid}`);
-            fetch(
-                url,
-                {
-                    "headers": {
-                        "Client-ID": client_id,
-                        "Authorization": "Bearer " + access_token
-                    }
-                }
-            )
-                .then(resp => resp.json())
-                .then(resp => {
-                    //log(`Got color: ${resp.data[0].color} for ${theuserid}`);
-					//log(`class is for ${thedivclass}`);
-					redeemUserColor = `${resp.data[0].color}`					
-					if (resp.data[0].color) {
-						changeDivColorByClassUser(thedivclass, redeemUserColor);
-					} else {
-						changeDivColorByClassUser(thedivclass, '#ED0080');	
-					}
-                })
-                .catch(err => {
-                    console.log(err);
-                    log('Error with getUsersColor Call');
-                });
-        }
+		// This function helps us create darker shades for our gradients.
+		function shadeColor(color, percent) {
+			let R = parseInt(color.substring(1, 3), 16);
+			let G = parseInt(color.substring(3, 5), 16);
+			let B = parseInt(color.substring(5, 7), 16);
+		
+			R = parseInt(R * (100 + percent) / 100);
+			G = parseInt(G * (100 + percent) / 100);
+			B = parseInt(B * (100 + percent) / 100);
+		
+			R = (R < 255) ? R : 255;  
+			G = (G < 255) ? G : 255;  
+			B = (B < 255) ? B : 255;  
+		
+			const RR = ((R.toString(16).length === 1) ? "0" + R.toString(16) : R.toString(16));
+			const GG = ((G.toString(16).length === 1) ? "0" + G.toString(16) : G.toString(16));
+			const BB = ((B.toString(16).length === 1) ? "0" + B.toString(16) : B.toString(16));
+		
+			return "#" + RR + GG + BB;
+		}
 				
 		function doPredEndStuff(broadcaster_id, pred_id) {
             let url = new URL('https://api.twitch.tv/helix/predictions?broadcaster_id='+broadcaster_id+'&id='+pred_id);
