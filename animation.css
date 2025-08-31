@@ -43,7 +43,7 @@ body {
 #outcomebar {
     z-index: -1;
     color: #fff;
-    border-radius: 8px; /* Slightly softer corners */
+    border-radius: 9px; /* Slightly softer corners */
     padding: 4px 20px 22px 12px; /* Adjusted padding */
     margin: 0px 4px 6px 0px; /* Add slight spacing between bars */
 	width: fit-content;
