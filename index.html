@@ -118,7 +118,7 @@
 	  }
     </style>
 </head>
-<body onClick="bullshit();">
+<body>
 <div id="bigcontainer1"><div id="bigcontainer">
 				
 			<div id="centercontentbox">
@@ -638,7 +638,11 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						newDiv2.classList.add('outcomebar-' + i);
 						newDiv2.setAttribute('id', 'outcomebar');
 						container.appendChild(newDiv2);
-						newDiv2.style.width = newDiv2.offsetWidth;
+						
+						// Store the natural width before applying an inline style
+						const initialContentWidth = newDiv2.offsetWidth;
+						newDiv2.setAttribute('data-initial-width', initialContentWidth);
+						newDiv2.style.width = initialContentWidth + 'px';
 						
 						const newDiv4 = document.createElement('div');
 						newDiv4.classList.add('outcomecp-' + i);
@@ -736,7 +740,11 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 						newDiv2.classList.add('outcomebar-' + i);
 						newDiv2.setAttribute('id', 'outcomebar');
 						container.appendChild(newDiv2);
-						newDiv2.style.width = newDiv2.offsetWidth;
+
+						// Store the natural width before applying an inline style
+						const initialContentWidth = newDiv2.offsetWidth;
+						newDiv2.setAttribute('data-initial-width', initialContentWidth);
+						newDiv2.style.width = initialContentWidth + 'px';
 						
 						const newDiv4 = document.createElement('div');
 						newDiv4.classList.add('outcomecp-' + i);
@@ -747,12 +755,8 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					  globalWidth = globalWidthHolder.offsetWidth;
 					  
 					setTimeout(() => {
-					   globalWidth = globalWidthHolder.offsetWidth;
-					   console.log('globalwidth is:'+globalWidth);				
-					  for (let i = 0; i < numberOfDivs; i++) {
-						changeDivWidthByClass('outcomebar-' + i, 0, numberOfDivs, i);
-						addTheBarsMoveTimer();
-					  }
+					   globalWidth = globalWidthHolder.offsetWidth; // Recalculate width after rendering
+					   addTheBarsMoveTimer();
 					}, 800);  
 					showTheTimer(resp.data[0].prediction_window, resp.data[0].created_at);
 					fadeinEverything();
@@ -777,87 +781,61 @@ Simply add it as a browser source by copying the URL of the blank screen after c
                     }
                 }
             )
-                .then(resp => resp.json())
-                .then(resp => {
-					//console.dir(resp.data[0]);					
-					const numberOfDivs = `${resp.data[0].outcomes.length}`
-					const outcomeCPValues = [];
+            .then(resp => resp.json())
+            .then(resp => {
+                if (!resp.data || !resp.data[0] || !resp.data[0].outcomes) {
+                    return; // Exit if data is not as expected
+                }
+
+                const outcomes = resp.data[0].outcomes;
+                const numberOfOutcomes = outcomes.length;
+                const container = document.getElementById('animation');
+                // Ensure globalWidth is up-to-date for accurate scaling
+                globalWidth = container.offsetWidth;
+
+                // 1. Collect all channel point values and find the maximum.
+                const allPoints = outcomes.map(outcome => parseInt(outcome.channel_points, 10));
+                const maxPoints = Math.max(...allPoints);
+
+                // 2. Loop through each outcome ONCE to update its bar.
+                for (let i = 0; i < numberOfOutcomes; i++) {
+                    const outcome = outcomes[i];
+                    const currentPoints = allPoints[i];
+                    const barElement = document.querySelector('.outcomebar-' + i);
+
+                    if (!barElement) continue; // Skip if the bar element doesn't exist
+
+                    // Update the number counter
+                    countUpToCPointsNumber('outcomecp-' + i, currentPoints, outcome.title);
+
+                    // Update the bar color based on the top predictor
+                    if (outcome.users > 0 && outcome.top_predictors && outcome.top_predictors.length > 0) {
+                        const topPredictorUserId = outcome.top_predictors[0].user_id;
+                        doChatUsersBarColor(topPredictorUserId, 'outcomebar-' + i);
+                    }
 					
-					  for (let i = 0; i < numberOfDivs; i++) {
-						  
-						  outcomeCPValues.push(`${resp.data[0].outcomes[i].channel_points}`);
-						  												  
-						//changeDivWidthByClass('outcomebar-' + i, `${resp.data[0].outcomes[i].channel_points}`, numberOfDivs, i);
-						//countUpToCPointsNumber('outcomecp-' + i, `${resp.data[0].outcomes[i].channel_points}`, `${resp.data[0].outcomes[i].title}`);
-						
-						if (`${resp.data[0].outcomes[i].users}` == 0) { 
-						
-							//log(`no betters on ` + i);
-						
-						} else {
-																				
-							barColorUser = `${resp.data[0].outcomes[i].top_predictors[0].user_id}`	
-							doChatUsersBarColor(barColorUser, 'outcomebar-' + i)
-						}
-						
-						if (i+1 == numberOfDivs){
-							 for (let i = 0; i < numberOfDivs; i++) {
-								addTheBarsMoveTimer();
-								countUpToCPointsNumber('outcomecp-' + i, `${resp.data[0].outcomes[i].channel_points}`, `${resp.data[0].outcomes[i].title}`);
-								let allowedToScale = 1;
-								if (`${resp.data[0].outcomes[i].channel_points}` == 0){
-									allowedToScale = 0;
-								}
-								const barProcessor = createBarProcessor(
-								  'outcomebar-' + i,      // The class name of the bar
-								  outcomeCPValues.length,   // The total number of bars we expect
-								  globalWidth,       // The container width in pixels
-								  allowedToScale
-								);
-								
-							  outcomeCPValues.forEach(value => {
-								  barProcessor(value);
-								});	
-							 }
-						}
-					  }					
-                })
-                .catch(err => {
-                    console.log(err);
-                    log('Error with Users Call');
-                });
-        }
-		
-		function bullshit() {
-            					
-					const numberOfDivs = `5`
-					const outcomeCPValues = [];
-					
-					  for (let i = 0; i < numberOfDivs; i++) {
-						  
-						  outcomeCPValues.push(1000*i+5);
-						  												  
-						//countUpToCPointsNumber('outcomecp-' + i, 1000*i+5, `xyzz`);
-												
-							//barColorUser = `gr4vebot`	
-							//doChatUsersBarColor(barColorUser, 'outcomebar-' + i)
-						
-						if (i+1 == numberOfDivs){
-							 for (let i = 0; i < numberOfDivs; i++) {
-								addTheBarsMoveTimer();
-								countUpToCPointsNumber('outcomecp-' + i, 1000*i+5, `xyzz`);
-								const barProcessor = createBarProcessor(
-								  'outcomebar-' + i,      // The class name of your bars
-								  outcomeCPValues.length,   // The total number of bars we expect
-								  globalWidth       // The container width in pixels
-								);
-								
-							  outcomeCPValues.forEach(value => {
-								  barProcessor(value);
-								});	
-							 }
-						}
-					  }					
+                    // 3. Calculate the new proportional width
+                    let proportionalWidth = 0;
+                    // Use the stored minimum width required for the text
+                    const minimumWidth = parseInt(barElement.getAttribute('data-initial-width'), 10) || 0;
+
+                    if (maxPoints > 0) {
+                        proportionalWidth = (currentPoints / maxPoints) * globalWidth;
+                    }
+
+                    // The final width is the larger of the proportional width or the minimum text width
+                    const finalWidth = Math.max(proportionalWidth, minimumWidth);
+
+                    barElement.style.width = `${finalWidth}px`;
+                }
+                
+                // After all widths are set, adjust the timer's position
+                addTheBarsMoveTimer();
+            })
+            .catch(err => {
+                console.log(err);
+                log('Error with Prediction Progress Call');
+            });
         }
 		
 		function countUpToCPointsNumber(className, stones, title){
@@ -887,96 +865,6 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 					counterElement.textContent = Math.round(currentNumber); // Update the displayed number, rounded to the nearest integer
 				}
 			}, interval);	
-		}
-		
-		/**
-		 * Creates and returns a new bar processing function with its own private state.
-		 * This prevents race conditions from overlapping API calls.
-		 *
-		 * @param {string} className - The class name of the bar elements.
-		 * @param {number} totalBars - The TOTAL number of bars expected in this batch.
-		 * @param {number} globalWidth - The maximum possible width in pixels.
-		 * @returns {Function} A new processor function to be called for each data point.
-		 */
-		function createBarProcessor(className, totalBars, globalXWidth, scaleCheck) {
-		  // --- Private State ---
-		  // This data is protected within the closure. Each call to the factory
-		  // creates a NEW queue and counter.
-		  let dataQueue = [];
-		  let callCount = 0;
-		  // ---
-		
-		  // The factory returns this function
-		  return function processSingleBar(value) {
-			callCount++;
-			dataQueue.push(value);		
-			// Is this the last piece of data we were expecting for THIS batch?
-			if (callCount === totalBars) {
-			  // This block only runs once when the batch is complete.
-			  const elements = document.getElementsByClassName(className);
-			  const maxValueInData = Math.max(...dataQueue);
-		
-			  for (let i = 0; i < elements.length; i++) {
-				const initialWidth = elements[i].offsetWidth;
-				const currentValue = dataQueue[i];
-				let calculatedPixelWidth = 0;
-		
-				if (maxValueInData > 0) {
-				  calculatedPixelWidth = (currentValue / maxValueInData) * globalXWidth;
-				}
-		
-				const finalPixelWidth = Math.max(calculatedPixelWidth, initialWidth);
-				if(scaleCheck == 1){
-					elements[i].style.width = `${finalPixelWidth}px`;
-				}
-			  }
-			  // No need to reset the queue, because this entire function and its
-			  // state will be discarded after it's done.
-			}
-		  };
-		}
-				
-		function changeDivWidthByClass(className, newWidth, numberOfDivs, currentDiv) {
-			
-			 // 1. Add the value for the current bar to our queue.
-			  barDataQueue.push(newWidth);
-			
-			  // 2. Check if this is the LAST bar in the set.
-			  if (currentDiv === numberOfDivs - 1) {
-				
-				const elements = document.getElementsByClassName(className);
-				const maxValueInData = Math.max(...barDataQueue);
-			
-				// 3. Loop through the elements and set their final width.
-				for (let i = 0; i < elements.length; i++) {
-				  // --- NEW: Get the bar's initial width directly from the DOM ---
-				  // .offsetWidth is perfect here as it returns the rendered width in pixels as a number.
-				  const initialWidth = elements[i].offsetWidth;
-			
-				  const currentValue = barDataQueue[i];
-				  let calculatedPixelWidth = 0;
-			
-				  if (maxValueInData > 0) {
-					calculatedPixelWidth = (currentValue / maxValueInData) * globalWidth;
-				  }
-				  
-				  // --- NEW: Compare the calculated width with the initial width ---
-				  // Math.max() will return the larger of the two values.
-				  // This ensures the bar's width will either grow or stay the same, but never shrink.
-				  const finalPixelWidth = Math.max(calculatedPixelWidth, initialWidth);
-				  
-				  // 4. Apply the final, validated width to the element.
-				  //elements[i].style.width = `${finalPixelWidth}px`;
-				  if(i+1 == elements.length){
-					  elements[i].style.width = `${finalPixelWidth-28}px`;
-				  }else{
-					  elements[i].style.width = `${finalPixelWidth}px`;
-				  }
-				}
-			
-				// 5. IMPORTANT: Reset the queue for the next API call.
-				barDataQueue = [];
-			  }
 		}
 		
 		function changeDivColorByClassUser(className, newBgColor) {
