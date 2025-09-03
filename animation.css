@@ -47,7 +47,7 @@ body {
     padding: 4px 20px 22px 12px; /* Adjusted padding */
     margin: 0px 4px 6px 0px; /* Add slight spacing between bars */
 	width: fit-content;
-	height: 38px;
+	height: 36px;
 	margin-top: -1px;
     /* --- NEW: Gradient and shadow for a modern look --- */
     background-image: linear-gradient(to right, #ed0080, #c1006a);
@@ -195,14 +195,13 @@ body {
 #losingdiv{
 	position: absolute;
 	z-index: 1000;
-	top: -170px;
+	top: -160px;
     padding: 4px 40px 4px 4px;
     transition: all 1s ease-in-out;
 	color: #fff;
-	width: 50%;
+	width: 75%;
     margin-left: 10px;
     margin-right: 11px;
-	margin-top: 20px;
     font-size: 34px;
     font-weight: bold;
 	align-items: right;
