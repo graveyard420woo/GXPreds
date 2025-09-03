@@ -119,7 +119,7 @@
     </style>
 </head>
 <body>
-<div id="bigcontainer1"><div id="bigcontainer">
+<div id="bigcontainer1" class="initial-fade"><div id="bigcontainer">
 				
 			<div id="centercontentbox">
 
@@ -178,6 +178,12 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 		var zeroCheck = 0;
 		var totalbarwidthtogether = 0;
 		let barDataQueue = [];
+		
+		const myBigAssDiv = document.getElementById('bigcontainer1');
+		  setTimeout(() => {
+			myBigAssDiv.classList.remove('initial-fade');
+			myBigAssDiv.classList.add('visible-fade');
+		  }, 1000);
 								
 		document.getElementById('authorize').setAttribute('href', 'https://id.twitch.tv/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + encodeURIComponent(redirect) + '&response_type=token&scope=channel:manage:predictions');
 
