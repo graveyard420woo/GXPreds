@@ -319,7 +319,7 @@ Simply add it as a browser source by copying the URL of the blank screen after c
 			const utcTimeMilliseconds = utcDate.getTime(); 
 			const elapsedTimeMilliseconds = nowUTC - utcTimeMilliseconds; // Calculate elapsed time in milliseconds
 			const elapsedTimeSeconds = Math.floor(elapsedTimeMilliseconds / 1000);
-			seconds = (seconds - elapsedTimeSeconds) - 57; // Adjusted timing offset the - 57 compensates for twitchs incorrect offset
+			seconds = (seconds - elapsedTimeSeconds) - 112; // Adjusted timing offset the - 57 compensates for twitchs incorrect offset
 			
 			const container = document.getElementById('animation');
 			const newTimerDiv = document.createElement('div');
