@@ -213,8 +213,6 @@ body {
     margin-right: 11px;
     font-size: 34px;
     font-weight: bold;
-	align-items: center;
-	text-align: center;
 	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
 }
 
@@ -222,8 +220,8 @@ body {
   height: 600px;
   float: right;
   margin-right: 66px;
-  align-items: right;
-  text-align: right;
+  align-items: center;
+  text-align: center;
   white-space: nowrap;
   transition: all 1s ease-in-out;
 }
@@ -235,9 +233,6 @@ body {
   font-weight: bold;
   white-space: nowrap;
   margin-right: 66px;
-  align-items: right;
-  text-align: right;
-  /* --- UPDATED: A smoother, more elegant transition --- */
   transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
   text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Refined shadow */
 }
