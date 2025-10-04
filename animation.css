@@ -220,8 +220,8 @@ body {
   height: 600px;
   float: right;
   margin-right: 66px;
-  align-items: center;
-  text-align: center;
+  align-items: left;
+  text-align: left;
   white-space: nowrap;
   transition: all 1s ease-in-out;
 }
