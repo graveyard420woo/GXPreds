@@ -169,7 +169,7 @@ body {
 	z-index: 1000;
 	width: 100%;
     padding: 4px 40px 4px 4px;
-    transition: all 1s ease-in-out;
+    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 	color: #fff;
     margin-left: 69px;
     margin-right: 11px;
@@ -206,13 +206,15 @@ body {
 	z-index: 1000;
 	top: -140px;
     padding: 4px 40px 4px 4px;
-    transition: all 1s ease-in-out;
+    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 	color: #fff;
-	width: 100%;
+	width: 80%;
     margin-left: 10px;
     margin-right: 11px;
     font-size: 34px;
     font-weight: bold;
+	align-items: left;
+	text-align: left;
 	text-shadow: 0 0 10px #fff, 0 0 20px #666, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073;
 }
 
@@ -220,8 +222,8 @@ body {
   height: 600px;
   float: right;
   margin-right: 66px;
-  align-items: left;
-  text-align: left;
+  align-items: right;
+  text-align: right;
   white-space: nowrap;
   transition: all 1s ease-in-out;
 }
