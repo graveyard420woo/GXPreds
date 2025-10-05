@@ -204,12 +204,12 @@ body {
 #losingdiv{
 	position: absolute;
 	z-index: 1000;
-	top: -140px;
+	top: -220px;
     padding: 4px 40px 4px 4px;
     transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 	color: #fff;
 	width: 80%;
-    margin-left: 10px;
+    margin-left: 166px;
     margin-right: 11px;
     font-size: 34px;
     font-weight: bold;
